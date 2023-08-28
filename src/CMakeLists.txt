@@ -18,18 +18,8 @@
 cmake_minimum_required(VERSION 3.20)
 
 set(CMAKE_CXX_EXTENSIONS Off)
-set(CMAKE_EXPORT_COMPILE_COMMANDS On)
 
-add_executable(ProvingGrounds Main.cpp)
+add_library(Pulsar Pulsar.cpp ../include/Pulsar/Dependencies/glad/src/glad.c)
+target_link_libraries(Pulsar PRIVATE glfw)
 
-target_include_directories(ProvingGrounds PRIVATE ../include)
-
-target_link_libraries(ProvingGrounds PRIVATE Pulsar)
-
-target_compile_features(ProvingGrounds PRIVATE cxx_std_20)
-if (MSVC)
-    target_compile_options(ProvingGrounds PRIVATE /W4 /GR- /Zc:preprocessor)
-else ()
-    target_compile_options(ProvingGrounds PRIVATE -Wall -Wextra -Wpedantic
-        -Wconversion -fno-rtti -fno-exceptions)
-endif()
+target_compile_features(Pulsar PRIVATE cxx_std_20)

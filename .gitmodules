@@ -1,0 +1,6 @@
+[submodule "include/Pulsar/Dependencies/Equinox"]
+	path = include/Pulsar/Dependencies/Equinox
+	url = git@github.com:tony942316/Equinox.git
+[submodule "include/Pulsar/Dependencies/glfw"]
+	path = include/Pulsar/Dependencies/glfw
+	url = https://github.com/glfw/glfw.git

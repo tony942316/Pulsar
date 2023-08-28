@@ -23,6 +23,13 @@ project(
     DESCRIPTION "2D Game Engine"
     LANGUAGES C CXX)
 
+set(GLFW_BUILD_DOCS Off CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS Off CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES Off CACHE BOOL "" FORCE)
+add_subdirectory(include/Pulsar/Dependencies/glfw)
+
+add_subdirectory(src)
+
 if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     add_subdirectory(ProvingGrounds)
 endif ()

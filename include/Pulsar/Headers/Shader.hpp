@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_HPP
-#define PULSAR_HPP
+#ifndef PULSAR_SHADER_HPP
+#define PULSAR_SHADER_HPP
 
-#include "Headers/VertexBuffer.hpp"
-#include "Headers/Shader.hpp"
+// Declarations in "details/ShaderDecl.hpp"
+#include "details/ShaderImpl.ipp"
 
-#endif // PULSAR_HPP
+#endif // PULSAR_SHADER_HPP

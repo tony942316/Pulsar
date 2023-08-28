@@ -22,6 +22,14 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS On)
 
 add_executable(ProvingGrounds Main.cpp)
 
+add_custom_target(copy_resources ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${PROJECT_SOURCE_DIR}/ProvingGrounds/Resources
+    ${PROJECT_BINARY_DIR}/ProvingGrounds/Resources
+    COMMENT "Copying Resources!")
+
+add_dependencies(ProvingGrounds copy_resources)
+
 target_include_directories(ProvingGrounds PRIVATE ../include)
 
 target_link_libraries(ProvingGrounds PRIVATE Pulsar)

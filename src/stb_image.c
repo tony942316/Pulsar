@@ -15,19 +15,5 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_DETAILS_DEPENDENCIES_HPP
-#define PULSAR_DETAILS_DEPENDENCIES_HPP
-
-#include "../../Dependencies/Equinox/include/Equinox/Equinox.hpp"
-#include "../../Dependencies/glad/include/glad/glad.h"
-#include "../../Dependencies/glfw/include/GLFW/glfw3.h"
-#include "../../Dependencies/glm/glm/glm.hpp"
-#include "../../Dependencies/glm/glm/gtc/matrix_transform.hpp"
-#include "../../Dependencies/glm/glm/gtc/type_ptr.hpp"
-
-namespace pul
-{
-    using namespace eqx::literals;
-}
-
-#endif // PULSAR_DETAILS_DEPENDENCIES_HPP
+#define STB_IMAGE_IMPLEMENTATION
+#include "../include/Pulsar/Dependencies/stb/stb_image.h"

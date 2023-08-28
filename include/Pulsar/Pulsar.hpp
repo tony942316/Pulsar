@@ -18,6 +18,6 @@
 #ifndef PULSAR_HPP
 #define PULSAR_HPP
 
-#include "Headers/details/Dependencies.hpp"
+#include "Headers/VertexBuffer.hpp"
 
 #endif // PULSAR_HPP

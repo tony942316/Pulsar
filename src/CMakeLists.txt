@@ -19,7 +19,8 @@ cmake_minimum_required(VERSION 3.20)
 
 set(CMAKE_CXX_EXTENSIONS Off)
 
-add_library(Pulsar Pulsar.cpp ../include/Pulsar/Dependencies/glad/src/glad.c)
-target_link_libraries(Pulsar PRIVATE glfw)
+add_library(Pulsar Pulsar.cpp stb_image.c
+    ../include/Pulsar/Dependencies/glad/src/glad.c)
 
+target_link_libraries(Pulsar PRIVATE glfw)
 target_compile_features(Pulsar PRIVATE cxx_std_20)

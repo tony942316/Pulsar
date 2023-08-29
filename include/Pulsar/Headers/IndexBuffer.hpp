@@ -15,11 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_HPP
-#define PULSAR_HPP
+#ifndef PULSAR_INDEXBUFFER_HPP
+#define PULSAR_INDEXBUFFER_HPP
 
-#include "Headers/VertexBuffer.hpp"
-#include "Headers/IndexBuffer.hpp"
-#include "Headers/Shader.hpp"
+// Declarations in "details/IndexBufferDecl.hpp"
+#include "details/IndexBufferImpl.ipp"
 
-#endif // PULSAR_HPP
+#endif // PULSAR_INDEXBUFFER_HPP

@@ -26,6 +26,10 @@ namespace pul
     {
     public:
         explicit constexpr VertexBuffer() noexcept;
+        template <typename T, typename U>
+            requires eqx::ConstCollection<T> && eqx::ConstCollection<U>
+        explicit inline VertexBuffer(const T& vertices,
+            const U& attribs) noexcept;
 
         template <typename T, typename U>
             requires eqx::ConstCollection<T> && eqx::ConstCollection<U>
@@ -36,14 +40,17 @@ namespace pul
         inline void enable() const noexcept;
         inline void disable() const noexcept;
 
+        [[nodiscard]] inline const std::vector<float>&
+            getVertices() const noexcept;
+
     private:
-        static inline unsigned int genVB() noexcept;
-        static inline unsigned int genVA() noexcept;
+        [[nodiscard]] static inline unsigned int genVB() noexcept;
+        [[nodiscard]] static inline unsigned int genVA() noexcept;
         static inline void delVB(unsigned int vb) noexcept;
         static inline void delVA(unsigned int va) noexcept;
 
-        static inline std::vector<float>* genVertices() noexcept;
-        static inline std::vector<int>* genAttribs() noexcept;
+        [[nodiscard]] static inline std::vector<float>* genVertices() noexcept;
+        [[nodiscard]] static inline std::vector<int>* genAttribs() noexcept;
         static inline void delVertices(std::vector<float>* vertices) noexcept;
         static inline void delAttribs(std::vector<int>* attribs) noexcept;
 

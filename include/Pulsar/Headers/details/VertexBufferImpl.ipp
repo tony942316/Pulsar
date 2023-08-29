@@ -33,6 +33,14 @@ namespace pul
 
     template <typename T, typename U>
         requires eqx::ConstCollection<T> && eqx::ConstCollection<U>
+    inline VertexBuffer::VertexBuffer(const T& vertices,
+        const U& attribs) noexcept
+    {
+        init(vertices, attribs);
+    }
+
+    template <typename T, typename U>
+        requires eqx::ConstCollection<T> && eqx::ConstCollection<U>
     void VertexBuffer::init(const T& vertices, const U& attribs) noexcept
     {
         if (m_VAO.get() != 0U)
@@ -60,9 +68,9 @@ namespace pul
             m_Vertices.get()->data(),
             GL_STATIC_DRAW);
 
-        const auto vertexSize = static_cast<unsigned int>(std::accumulate(
+        const auto vertexSize = static_cast<GLsizei>(std::accumulate(
             std::ranges::cbegin(*m_Attribs.get()),
-            std::ranges::cend(*m_Attribs.get()), 0)) * sizeof(float);
+            std::ranges::cend(*m_Attribs.get()), 0)) * static_cast<GLsizei>(sizeof(float));
         auto runningCount = 0U;
         auto currentIndex = static_cast<GLuint>(0);
 
@@ -105,14 +113,20 @@ namespace pul
         glBindVertexArray(0U);
     }
 
-    inline unsigned int VertexBuffer::genVB() noexcept
+    [[nodiscard]] inline const std::vector<float>&
+        VertexBuffer::getVertices() const noexcept
+    {
+        return *m_Vertices.get();
+    }
+
+    [[nodiscard]] inline unsigned int VertexBuffer::genVB() noexcept
     {
         unsigned int vb = 0;
         glGenBuffers(1, &vb);
         return vb;
     }
 
-    inline unsigned int VertexBuffer::genVA() noexcept
+    [[nodiscard]] inline unsigned int VertexBuffer::genVA() noexcept
     {
         unsigned int va = 0;
         glGenVertexArrays(1, &va);
@@ -129,12 +143,13 @@ namespace pul
         glDeleteVertexArrays(1, &va);
     }
 
-    inline std::vector<float>* VertexBuffer::genVertices() noexcept
+    [[nodiscard]] inline std::vector<float>*
+        VertexBuffer::genVertices() noexcept
     {
         return new std::vector<float>();
     }
 
-    inline std::vector<int>* VertexBuffer::genAttribs() noexcept
+    [[nodiscard]] inline std::vector<int>* VertexBuffer::genAttribs() noexcept
     {
         return new std::vector<int>();
     }

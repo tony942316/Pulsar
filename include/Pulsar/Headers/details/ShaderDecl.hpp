@@ -26,6 +26,8 @@ namespace pul
     {
     public:
         explicit constexpr Shader() noexcept;
+        explicit inline Shader(std::string_view vertexFilePath,
+            std::string_view fragmentFilePath) noexcept;
 
         inline void init(std::string_view vertexFilePath,
             std::string_view fragmentFilePath) noexcept;
@@ -33,8 +35,10 @@ namespace pul
         inline void enable() const noexcept;
         inline void disable() const noexcept;
 
+        inline void free() noexcept;
+
     private:
-        static inline unsigned int genShader() noexcept;
+        [[nodiscard]] static inline unsigned int genShader() noexcept;
         static inline void delShader(unsigned int shader) noexcept;
 
         using ShaderID =

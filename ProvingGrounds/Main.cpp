@@ -40,7 +40,8 @@ int main()
     shader.init("Resources/Shaders/BasicVertex.glsl", "Resources/Shaders/BasicFragment.glsl");
 
     float verts[] = {
-        0.0f, 0.5f,
+        -0.5f, 0.5f,
+        0.5f, 0.5f,
         0.5f, -0.5f,
         -0.5f, -0.5f
     };
@@ -50,27 +51,22 @@ int main()
     };
 
     unsigned int inds[] = {
-        0, 1, 2
+        0, 1, 2,
+        0, 2, 3
     };
 
-    auto vb = pul::VertexBuffer();
-    vb.init(verts, attrs);
-
-    auto eb = 0U;
-    glGenBuffers(1, &eb);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eb);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * 3, inds, GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    auto vb = pul::VertexBuffer(verts, attrs);
+    auto ib = pul::IndexBuffer(inds);
 
     while (!glfwWindowShouldClose(window))
     {
         shader.enable();
         vb.enable();
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eb);
+        ib.enable();
 
-        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, static_cast<GLint>(ib.getCount()), GL_UNSIGNED_INT, 0);
 
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        ib.disable();
         vb.disable();
         shader.disable();
 
@@ -80,6 +76,8 @@ int main()
     }
 
     vb.free();
+    shader.free();
+    ib.free();
 
     glfwTerminate();
 

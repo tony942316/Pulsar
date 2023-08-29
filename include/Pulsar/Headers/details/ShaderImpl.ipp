@@ -28,6 +28,12 @@ namespace pul
     {
     }
 
+    inline Shader::Shader(std::string_view vertexFilePath,
+        std::string_view fragmentFilePath) noexcept
+    {
+        init(vertexFilePath, fragmentFilePath);
+    }
+
     inline void Shader::init(std::string_view vertexFilePath,
         std::string_view fragmentFilePath) noexcept
     {
@@ -60,7 +66,12 @@ namespace pul
         glUseProgram(0U);
     }
 
-    inline unsigned int Shader::genShader() noexcept
+    inline void Shader::free() noexcept
+    {
+        m_Shader.free();
+    }
+
+    [[nodiscard]] inline unsigned int Shader::genShader() noexcept
     {
         return glCreateProgram();
     }

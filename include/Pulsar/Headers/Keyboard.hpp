@@ -15,14 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_HPP
-#define PULSAR_HPP
+#ifndef PULSAR_KEYBOARD_HPP
+#define PULSAR_KEYBOARD_HPP
 
-#include "Headers/VertexBuffer.hpp"
-#include "Headers/IndexBuffer.hpp"
-#include "Headers/Shader.hpp"
-#include "Headers/Mouse.hpp"
-#include "Headers/Keyboard.hpp"
-#include "Headers/Window.hpp"
+// Declarations in "details/KeyboardDecl.hpp"
+#include "details/KeyboardImpl.ipp"
 
-#endif // PULSAR_HPP
+#endif // PULSAR_KEYBOARD_HPP

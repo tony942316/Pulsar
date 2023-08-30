@@ -17,9 +17,14 @@
 
 #include "Pulsar/Pulsar.hpp"
 
+constinit inline auto g_Window = pul::Window();
+
 void update() noexcept
 {
-
+    if (pul::Keyboard::getKey(pul::Keyboard::Key::Escape) == pul::Keyboard::Button::Down)
+    {
+        g_Window.close();
+    }
 }
 
 void render() noexcept
@@ -72,11 +77,11 @@ int main()
 {
     std::cout << "Start" << std::endl;
 
-    auto window = pul::Window(1200, 800, "Pulsar Window");
-    window.setUpdateFunc(update);
-    window.setRenderFunc(render);
+    g_Window.init(1200, 800, "Pulsar Window");
+    g_Window.setUpdateFunc(update);
+    g_Window.setRenderFunc(render);
 
-    window.show();
+    g_Window.show();
 
     std::cout << "End" << std::endl;
     return 0;

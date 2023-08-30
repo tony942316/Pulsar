@@ -21,6 +21,7 @@
 #include "Dependencies.hpp"
 
 #include "../Mouse.hpp"
+#include "../Keyboard.hpp"
 
 namespace pul
 {
@@ -34,7 +35,8 @@ namespace pul
         inline void init(int width, int height, std::string_view name) noexcept;
         inline void free() noexcept;
 
-        inline void show();
+        inline void show() noexcept;
+        inline void close() noexcept;
 
         inline void setUpdateFunc(const std::function<void()>& func) noexcept;
         inline void setRenderFunc(const std::function<void()>& func) noexcept;

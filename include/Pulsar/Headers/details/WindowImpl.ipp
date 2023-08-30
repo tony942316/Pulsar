@@ -53,6 +53,7 @@ namespace pul
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_RESIZABLE, false);
+        Keyboard::init();
 
         m_Width = static_cast<float>(width);
         m_Height = static_cast<float>(height);
@@ -71,7 +72,7 @@ namespace pul
 
         glfwSetCursorPosCallback(m_Window.get(), Mouse::moveCallback);
         glfwSetMouseButtonCallback(m_Window.get(), Mouse::buttonCallback);
-        //glfwSetKeyCallback(m_Window.get(), Keyboard::buttonCallback);
+        glfwSetKeyCallback(m_Window.get(), Keyboard::buttonCallback);
 
         gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
@@ -90,7 +91,7 @@ namespace pul
         m_Window.free();
     }
 
-    inline void Window::show()
+    inline void Window::show() noexcept
     {
         std::cout << "Version: "sv << glGetString(GL_VERSION) << std::endl;
         std::cout << "Max Texture: "sv <<
@@ -159,6 +160,11 @@ namespace pul
 
         free();
         glfwTerminate();
+    }
+
+    inline void Window::close() noexcept
+    {
+        glfwSetWindowShouldClose(m_Window.get(), true);
     }
 
     inline void Window::setUpdateFunc(

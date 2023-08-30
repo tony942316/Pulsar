@@ -15,12 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_HPP
-#define PULSAR_HPP
+#ifndef PULSAR_WINDOW_HPP
+#define PULSAR_WINDOW_HPP
 
-#include "Headers/VertexBuffer.hpp"
-#include "Headers/IndexBuffer.hpp"
-#include "Headers/Shader.hpp"
-#include "Headers/Window.hpp"
+// Declarations in "details/WindowDecl.hpp"
+#include "details/WindowImpl.ipp"
 
-#endif // PULSAR_HPP
+#endif // PULSAR_WINDOW_HPP

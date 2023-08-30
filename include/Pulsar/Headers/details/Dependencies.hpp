@@ -28,6 +28,7 @@
 namespace pul
 {
     using namespace eqx::literals;
+    using namespace eqx::TimeTypes;
 }
 
 #endif // PULSAR_DETAILS_DEPENDENCIES_HPP

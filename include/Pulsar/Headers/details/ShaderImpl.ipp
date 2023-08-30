@@ -71,6 +71,39 @@ namespace pul
         m_Shader.free();
     }
 
+    inline void Shader::setInt(std::string_view name, int value) const noexcept
+    {
+        enable();
+        glUniform1i(glGetUniformLocation(m_Shader.get(), name.data()), value);
+        disable();
+    }
+
+    inline void Shader::setFloat(std::string_view name,
+        float value) const noexcept
+    {
+        enable();
+        glUniform1f(glGetUniformLocation(m_Shader.get(), name.data()), value);
+        disable();
+    }
+
+    inline void Shader::setVec4(std::string_view name,
+        const glm::vec4& value) const noexcept
+    {
+        enable();
+        glUniform4fv(glGetUniformLocation(m_Shader.get(), name.data()),
+            1, glm::value_ptr(value));
+        disable();
+    }
+
+    inline void Shader::setMat4(std::string_view name,
+        const glm::mat4& value) const noexcept
+    {
+        enable();
+        glUniformMatrix4fv(glGetUniformLocation(m_Shader.get(), name.data()),
+            1, false, glm::value_ptr(value));
+        disable();
+    }
+
     [[nodiscard]] inline unsigned int Shader::genShader() noexcept
     {
         return glCreateProgram();

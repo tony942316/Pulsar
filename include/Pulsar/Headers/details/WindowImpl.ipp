@@ -69,6 +69,9 @@ namespace pul
         glfwMakeContextCurrent(m_Window.get());
         glfwSwapInterval(1);
 
+        glfwSetCursorPosCallback(m_Window.get(), Mouse::moveCallback);
+        glfwSetMouseButtonCallback(m_Window.get(), Mouse::buttonCallback);
+        //glfwSetKeyCallback(m_Window.get(), Keyboard::buttonCallback);
 
         gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 

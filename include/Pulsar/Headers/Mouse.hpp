@@ -15,13 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_HPP
-#define PULSAR_HPP
+#ifndef PULSAR_MOUSE_HPP
+#define PULSAR_MOUSE_HPP
 
-#include "Headers/VertexBuffer.hpp"
-#include "Headers/IndexBuffer.hpp"
-#include "Headers/Shader.hpp"
-#include "Headers/Mouse.hpp"
-#include "Headers/Window.hpp"
+// Declarations in "details/MouseDecl.hpp"
+#include "details/MouseImpl.ipp"
 
-#endif // PULSAR_HPP
+#endif // PULSAR_MOUSE_HPP

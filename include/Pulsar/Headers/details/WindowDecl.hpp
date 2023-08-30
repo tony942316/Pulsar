@@ -20,6 +20,8 @@
 
 #include "Dependencies.hpp"
 
+#include "../Mouse.hpp"
+
 namespace pul
 {
     class Window

@@ -37,6 +37,13 @@ namespace pul
 
         inline void free() noexcept;
 
+        inline void setInt(std::string_view name, int value) const noexcept;
+        inline void setFloat(std::string_view name, float value) const noexcept;
+        inline void setVec4(std::string_view name,
+            const glm::vec4& value) const noexcept;
+        inline void setMat4(std::string_view name,
+            const glm::mat4& value) const noexcept;
+
     private:
         [[nodiscard]] static inline unsigned int genShader() noexcept;
         static inline void delShader(unsigned int shader) noexcept;

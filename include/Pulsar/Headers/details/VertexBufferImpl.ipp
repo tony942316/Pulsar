@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_VERTEXBUFFERDECL_HPP
-#define PULSAR_VERTEXBUFFERDECL_HPP
+#ifndef PULSAR_DETAILS_VERTEXBUFFERDECL_HPP
+#define PULSAR_DETAILS_VERTEXBUFFERDECL_HPP
 
 #include "VertexBufferDecl.hpp"
 
@@ -166,4 +166,4 @@ namespace pul
     }
 }
 
-#endif // PULSAR_VERTEXBUFFERDECL_HPP
+#endif // PULSAR_DETAILS_VERTEXBUFFERDECL_HPP

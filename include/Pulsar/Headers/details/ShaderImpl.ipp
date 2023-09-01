@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_SHADERIMPL_IPP
-#define PULSAR_SHADERIMPL_IPP
+#ifndef PULSAR_DETAILS_SHADERIMPL_IPP
+#define PULSAR_DETAILS_SHADERIMPL_IPP
 
 #include "ShaderDecl.hpp"
 
@@ -152,4 +152,4 @@ namespace pul
     }
 }
 
-#endif // PULSAR_SHADERIMPL_IPP
+#endif // PULSAR_DETAILS_SHADERIMPL_IPP

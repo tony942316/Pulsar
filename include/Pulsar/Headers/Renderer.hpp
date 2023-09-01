@@ -15,15 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_HPP
-#define PULSAR_HPP
+#ifndef PULSAR_RENDERER_HPP
+#define PULSAR_RENDERER_HPP
 
-#include "Headers/VertexBuffer.hpp"
-#include "Headers/IndexBuffer.hpp"
-#include "Headers/Shader.hpp"
-#include "Headers/Mouse.hpp"
-#include "Headers/Keyboard.hpp"
-#include "Headers/Window.hpp"
-#include "Headers/Renderer.hpp"
+// Declarations in "details/RendererDecl.hpp"
+#include "details/RendererImpl.ipp"
 
-#endif // PULSAR_HPP
+#endif // PULSAR_RENDERER_HPP

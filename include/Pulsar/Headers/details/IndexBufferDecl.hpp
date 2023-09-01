@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_INDEXBUFFERDECL_HPP
-#define PULSAR_INDEXBUFFERDECL_HPP
+#ifndef PULSAR_DETAILS_INDEXBUFFERDECL_HPP
+#define PULSAR_DETAILS_INDEXBUFFERDECL_HPP
 
 #include "Dependencies.hpp"
 
@@ -61,4 +61,4 @@ namespace pul
     };
 }
 
-#endif // PULSAR_INDEXBUFFERDECL_HPP
+#endif // PULSAR_DETAILS_INDEXBUFFERDECL_HPP

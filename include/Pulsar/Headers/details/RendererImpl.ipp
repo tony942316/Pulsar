@@ -15,15 +15,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_HPP
-#define PULSAR_HPP
+#ifndef PULSAR_DETAILS_RENDERERIMPL_IPP
+#define PULSAR_DETAILS_RENDERERIMPL_IPP
 
-#include "Headers/VertexBuffer.hpp"
-#include "Headers/IndexBuffer.hpp"
-#include "Headers/Shader.hpp"
-#include "Headers/Mouse.hpp"
-#include "Headers/Keyboard.hpp"
-#include "Headers/Window.hpp"
-#include "Headers/Renderer.hpp"
+#include "RendererDecl.hpp"
 
-#endif // PULSAR_HPP
+namespace pul
+{
+    inline void Renderer::draw(const Shader& shader,
+        const VertexBuffer& vertexBuffer,
+        const IndexBuffer& indexBuffer) noexcept
+    {
+        shader.enable();
+        vertexBuffer.enable();
+        indexBuffer.enable();
+
+        glDrawElements(GL_TRIANGLES, static_cast<int>(indexBuffer.getCount()),
+            GL_UNSIGNED_INT, 0);
+
+        shader.disable();
+        vertexBuffer.disable();
+        indexBuffer.disable();
+    }
+}
+
+#endif // PULSAR_DETAILS_RENDERERIMPL_IPP

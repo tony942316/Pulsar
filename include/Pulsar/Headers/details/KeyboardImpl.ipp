@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_KEYBOARDIMPL_IPP
-#define PULSAR_KEYBOARDIMPL_IPP
+#ifndef PULSAR_DETAILS_KEYBOARDIMPL_IPP
+#define PULSAR_DETAILS_KEYBOARDIMPL_IPP
 
 #include "KeyboardDecl.hpp"
 
@@ -45,4 +45,4 @@ namespace pul
     }
 }
 
-#endif // PULSAR_KEYBOARDIMPL_IPP
+#endif // PULSAR_DETAILS_KEYBOARDIMPL_IPP

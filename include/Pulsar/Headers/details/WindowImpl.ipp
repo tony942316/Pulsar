@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_WINDOWIMPL_IPP
-#define PULSAR_WINDOWIMPL_IPP
+#ifndef PULSAR_DETAILS_WINDOWIMPL_IPP
+#define PULSAR_DETAILS_WINDOWIMPL_IPP
 
 #include "WindowDecl.hpp"
 
@@ -220,4 +220,4 @@ namespace pul
     }
 }
 
-#endif // PULSAR_WINDOWIMPL_IPP
+#endif // PULSAR_DETAILS_WINDOWIMPL_IPP

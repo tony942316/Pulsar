@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_WINDOWDECL_HPP
-#define PULSAR_WINDOWDECL_HPP
+#ifndef PULSAR_DETAILS_WINDOWDECL_HPP
+#define PULSAR_DETAILS_WINDOWDECL_HPP
 
 #include "Dependencies.hpp"
 
@@ -70,4 +70,4 @@ namespace pul
     };
 }
 
-#endif // PULSAR_WINDOWDECL_HPP
+#endif // PULSAR_DETAILS_WINDOWDECL_HPP

@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_INDEXBUFFERIMPL_IPP
-#define PULSAR_INDEXBUFFERIMPL_IPP
+#ifndef PULSAR_DETAILS_INDEXBUFFERIMPL_IPP
+#define PULSAR_DETAILS_INDEXBUFFERIMPL_IPP
 
 #include "IndexBufferDecl.hpp"
 
@@ -116,4 +116,4 @@ namespace pul
     }
 }
 
-#endif // PULSAR_INDEXBUFFERIMPL_IPP
+#endif // PULSAR_DETAILS_INDEXBUFFERIMPL_IPP

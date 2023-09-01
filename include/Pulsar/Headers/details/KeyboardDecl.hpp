@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_KEYBOARDDECL_HPP
-#define PULSAR_KEYBOARDDECL_HPP
+#ifndef PULSAR_DETAILS_KEYBOARDDECL_HPP
+#define PULSAR_DETAILS_KEYBOARDDECL_HPP
 
 #include "Dependencies.hpp"
 
@@ -61,4 +61,4 @@ namespace pul
     };
 }
 
-#endif // PULSAR_KEYBOARDDECL_HPP
+#endif // PULSAR_DETAILS_KEYBOARDDECL_HPP

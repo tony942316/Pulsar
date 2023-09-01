@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_MOUSEIMPL_IPP
-#define PULSAR_MOUSEIMPL_IPP
+#ifndef PULSAR_DETAILS_MOUSEIMPL_IPP
+#define PULSAR_DETAILS_MOUSEIMPL_IPP
 
 #include "MouseDecl.hpp"
 
@@ -102,4 +102,4 @@ namespace pul
     }
 }
 
-#endif // PULSAR_MOUSEIMPL_IPP
+#endif // PULSAR_DETAILS_MOUSEIMPL_IPP

@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_MOUSEDECL_HPP
-#define PULSAR_MOUSEDECL_HPP
+#ifndef PULSAR_DETAILS_MOUSEDECL_HPP
+#define PULSAR_DETAILS_MOUSEDECL_HPP
 
 #include "Dependencies.hpp"
 

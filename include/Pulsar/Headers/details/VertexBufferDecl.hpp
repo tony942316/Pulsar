@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_VERTEXBUFFERIMPL_IPP
-#define PULSAR_VERTEXBUFFERIMPL_IPP
+#ifndef PULSAR_DETAILS_VERTEXBUFFERIMPL_IPP
+#define PULSAR_DETAILS_VERTEXBUFFERIMPL_IPP
 
 #include "Dependencies.hpp"
 
@@ -68,4 +68,4 @@ namespace pul
     };
 }
 
-#endif // PULSAR_VERTEXBUFFERIMPL_IPP
+#endif // PULSAR_DETAILS_VERTEXBUFFERIMPL_IPP

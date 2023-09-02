@@ -15,21 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_DETAILS_DEPENDENCIES_HPP
-#define PULSAR_DETAILS_DEPENDENCIES_HPP
+#ifndef PULSAR_TEXTURE_HPP
+#define PULSAR_TEXTURE_HPP
 
-#include "../../Dependencies/Equinox/include/Equinox/Equinox.hpp"
-#include "../../Dependencies/glad/include/glad/glad.h"
-#include "../../Dependencies/glfw/include/GLFW/glfw3.h"
-#include "../../Dependencies/glm/glm/glm.hpp"
-#include "../../Dependencies/glm/glm/gtc/matrix_transform.hpp"
-#include "../../Dependencies/glm/glm/gtc/type_ptr.hpp"
-#include "../../Dependencies/stb/stb_image.h"
+// Declarations in "details/TextureDecl.hpp"
+#include "details/TextureImpl.ipp"
 
-namespace pul
-{
-    using namespace eqx::literals;
-    using namespace eqx::TimeTypes;
-}
-
-#endif // PULSAR_DETAILS_DEPENDENCIES_HPP
+#endif // PULSAR_TEXTURE_HPP

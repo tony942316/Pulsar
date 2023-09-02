@@ -17,28 +17,28 @@
 
 #include "Pulsar/Pulsar.hpp"
 
+
 constinit inline auto g_Window = pul::Window();
-constinit inline auto g_Shader = pul::Shader();
-constinit inline auto g_VertexBuffer = pul::VertexBuffer();
-constinit inline auto g_IndexBuffer = pul::IndexBuffer();
+constinit inline auto g_Quad = pul::Quad();
 
 void update() noexcept
 {
-    if (pul::Keyboard::getKey(pul::Keyboard::Key::Escape) == pul::Keyboard::Button::Down)
+    if (pul::Keyboard::getKey(pul::Keyboard::Key::Escape) ==
+            pul::Keyboard::Button::Down)
     {
         g_Window.close();
     }
+
+    g_Quad.setDrawBox(eqx::Rectangle<float>(
+        static_cast<float>(pul::Mouse::getPosition().x) - 50.0f,
+        800.0f - static_cast<float>(pul::Mouse::getPosition().y) - 50.0f,
+        100.0f,
+        100.0f));
 }
 
 void render() noexcept
 {
-    auto model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(pul::Mouse::getPosition().x, pul::Mouse::getPosition().y, 0.0f));
-    model = glm::scale(model, glm::vec3(100.0f, 100.0f, 1.0f));
-
-    g_Shader.setMat4("u_Model", model);
-
-    pul::Renderer::draw(g_Shader, g_VertexBuffer, g_IndexBuffer);
+    pul::Renderer::draw(g_Quad);
 }
 
 int main()
@@ -46,32 +46,13 @@ int main()
     std::cout << "Start" << std::endl;
 
     g_Window.init(1200, 800, "Pulsar Window");
+    pul::Quad::init(1200.0f, 800.0f);
     g_Window.setUpdateFunc(update);
     g_Window.setRenderFunc(render);
 
-    auto view = glm::mat4(1.0f);
-    auto projection = glm::ortho(0.0f, 1200.0f, 800.0f, 0.0f, -1.0f, 1.0f);
-    g_Shader.init("Resources/Shaders/MVPVertex.glsl", "Resources/Shaders/MVPFragment.glsl");
-    g_Shader.setMat4("u_View", view);
-    g_Shader.setMat4("u_Projection", projection);
-    g_Shader.setVec4("u_Color", glm::vec4(0.8f, 0.0f, 0.2f, 1.0f));
-
-    float verts[] = {
-        -0.5f, 0.5f, 0.0f,
-        0.5f, 0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        -0.5f, -0.5f, 0.0f
-    };
-    int attrs[] = {
-        3
-    };
-    g_VertexBuffer.init(verts, attrs);
-
-    unsigned int inds[] = {
-        0, 1, 2,
-        0, 2, 3
-    };
-    g_IndexBuffer.init(inds);
+    g_Quad.setColor(glm::vec4(0.8f, 0.0f, 0.2f, 1.0f));
+    g_Quad.setMixture(1.0f);
+    g_Quad.setTexture("Resources/Textures/AwesomeFace.png");
 
     g_Window.show();
 

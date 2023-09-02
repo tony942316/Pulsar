@@ -23,6 +23,7 @@
 #include "../Shader.hpp"
 #include "../VertexBuffer.hpp"
 #include "../IndexBuffer.hpp"
+#include "../Quad.hpp"
 
 namespace pul
 {
@@ -39,6 +40,8 @@ namespace pul
         static inline void draw(const Shader& shader,
             const VertexBuffer& vertexBuffer,
             const IndexBuffer& indexBuffer) noexcept;
+
+        static inline void draw(const Quad& quad) noexcept;
 
     private:
     };

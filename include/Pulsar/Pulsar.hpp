@@ -24,6 +24,8 @@
 #include "Headers/Mouse.hpp"
 #include "Headers/Keyboard.hpp"
 #include "Headers/Window.hpp"
+#include "Headers/Texture.hpp"
 #include "Headers/Renderer.hpp"
+#include "Headers/Quad.hpp"
 
 #endif // PULSAR_HPP

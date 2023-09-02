@@ -37,6 +37,22 @@ namespace pul
         vertexBuffer.disable();
         indexBuffer.disable();
     }
+
+    inline void Renderer::draw(const Quad& quad) noexcept
+    {
+        quad.setUniforms();
+
+        Texture::enableTextureSlot(0U);
+        quad.getTexture().enable();
+
+        draw(Quad::getShader(), Quad::getVertexBuffer(),
+            Quad::getIndexBuffer());
+
+        Texture::enableTextureSlot(0U);
+        quad.getTexture().disable();
+
+        Quad::cleanUniforms();
+    }
 }
 
 #endif // PULSAR_DETAILS_RENDERERIMPL_IPP

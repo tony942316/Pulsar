@@ -1,13 +1,16 @@
-#version 330 core
+#version 450 core
 
-in vec2 TexCoords;
-out vec4 color;
+out vec4 o_FragmentColor;
 
-uniform sampler2D text;
-uniform vec4 textColor;
+in vec2 p_TexCoord;
+in vec4 p_Color;
+in float p_Tex;
+
+uniform sampler2D u_Textures[32];
 
 void main()
 {
-    vec4 sampled = vec4(1.0, 1.0, 1.0, texture(text, TexCoords).r);
-    color = vec4(textColor) * sampled;
+    o_FragmentColor =
+        vec4(1.0, 1.0, 1.0, texture(u_Textures[int(p_Tex)], p_TexCoord).r) *
+        p_Color;
 }

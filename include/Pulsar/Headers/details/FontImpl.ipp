@@ -84,6 +84,7 @@ namespace pul
                     static_cast<float>(ch.size.x),
                     static_cast<float>(ch.size.y)));
                 result.back().setTexture(&ch.tex);
+                result.back().setColor(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
                 x += static_cast<float>(ch.adv >> 6);
             });

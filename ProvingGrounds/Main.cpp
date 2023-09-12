@@ -53,9 +53,7 @@ void render() noexcept
     pul::Renderer::draw(g_Quad);
     pul::Renderer::draw(g_Quad2);
 
-    pul::Renderer::draw(*g_Quads.get());
-    pul::Renderer::draw(*g_Quads2.get());
-    pul::Renderer::draw(*g_Quads3.get());
+    pul::Renderer::drawText(*g_Quads.get());
 }
 
 int main()
@@ -80,12 +78,19 @@ int main()
 
     g_Font.init("Resources/Fonts/Poppins/Poppins-Regular.ttf");
 
-    g_Quads.init(g_Font.getText("abcdefghijklmnopqrstuvwxyz",
-        eqx::Point<float>(100.0f, 100.0f)));
-    g_Quads2.init(g_Font.getText("ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-        eqx::Point<float>(100.0f, 150.0f)));
-    g_Quads3.init(g_Font.getText("Like",
-        eqx::Point<float>(100.0f, 200.0f)));
+    g_Quads.init();
+    std::ranges::copy(
+        g_Font.getText("abcdefghijklmnopqrstuvwxyz'/\\;:,.!?",
+            eqx::Point<float>(100.0f, 100.0f)),
+        std::back_inserter(*g_Quads.get()));
+    std::ranges::copy(
+        g_Font.getText("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+            eqx::Point<float>(100.0f, 150.0f)),
+        std::back_inserter(*g_Quads.get()));
+    std::ranges::copy(
+        g_Font.getText("Like Wow Ok!",
+            eqx::Point<float>(100.0f, 200.0f)),
+        std::back_inserter(*g_Quads.get()));
 
     g_Window.show();
 

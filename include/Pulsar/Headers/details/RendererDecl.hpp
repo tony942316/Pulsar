@@ -41,11 +41,13 @@ namespace pul
             const VertexArray& vertexArray) noexcept;
         static inline void draw(Quad& quad) noexcept;
         static inline void draw(std::vector<Quad>& quads) noexcept;
+        static inline void drawText(std::vector<Quad>& quads) noexcept;
 
         static inline void init(float width, float height) noexcept;
 
     private:
         constinit static inline auto s_QuadShader = Shader();
+        constinit static inline auto s_TextShader = Shader();
         constinit static inline auto s_VA = VertexArray();
     };
 }

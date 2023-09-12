@@ -18,13 +18,26 @@
 #ifndef PULSAR_DETAILS_DEPENDENCIES_HPP
 #define PULSAR_DETAILS_DEPENDENCIES_HPP
 
-#include "../../Dependencies/Equinox/include/Equinox/Equinox.hpp"
-#include "../../Dependencies/glad/include/glad/glad.h"
-#include "../../Dependencies/glfw/include/GLFW/glfw3.h"
-#include "../../Dependencies/glm/glm/glm.hpp"
-#include "../../Dependencies/glm/glm/gtc/matrix_transform.hpp"
-#include "../../Dependencies/glm/glm/gtc/type_ptr.hpp"
-#include "../../Dependencies/stb/stb_image.h"
+// Equinox C++ Extension
+#include <Equinox/Equinox.hpp>
+
+// OpenGL Functions
+#include <glad/glad.h>
+
+// Windowing Library
+#include <GLFW/glfw3.h>
+
+// Math Library
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+// Image Processing
+#include <stb_image.h>
+
+// Text Renderering
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 namespace pul
 {

@@ -17,10 +17,21 @@
 
 cmake_minimum_required(VERSION 3.20)
 
-set(CMAKE_CXX_EXTENSIONS Off)
+add_library(Pulsar STATIC Pulsar.cpp)
 
-add_library(Pulsar Pulsar.cpp stb_image.c
-    ../include/Pulsar/Dependencies/glad/src/glad.c)
+target_include_directories(Pulsar PUBLIC ../include)
 
-target_link_libraries(Pulsar PRIVATE glfw)
-target_compile_features(Pulsar PRIVATE cxx_std_20)
+set_target_properties(Pulsar PROPERTIES
+    CXX_EXTENSIONS Off
+    EXPORT_COMPILE_COMMANDS On)
+
+target_link_libraries(Pulsar PUBLIC Equinox stb_image glfw glad glm freetype)
+
+target_compile_features(Pulsar PUBLIC cxx_std_20)
+
+if (MSVC)
+    target_compile_options(Pulsar PRIVATE /W4 /GR- /O2)
+else ()
+    target_compile_options(Pulsar PRIVATE -O3 -Wall -Wextra -Wpedantic
+        -Wconversion -fno-rtti -fno-exceptions)
+endif()

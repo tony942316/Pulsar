@@ -24,12 +24,22 @@ namespace pul
 {
     constexpr Quad::Quad() noexcept
         :
-        m_Mixture(0.0f),
-        m_Color(1.0f),
-        m_DrawBox(),
-        m_Model(1.0f),
-        m_Texture()
+        m_Texture(nullptr),
+        m_VertexData()
     {
+        m_VertexData.at(c_X[0_size] + 2_size) = 0.0f;
+        m_VertexData.at(c_X[0_size] + 3_size) = 0.0f;
+
+        m_VertexData.at(c_X[1_size] + 2_size) = 1.0f;
+        m_VertexData.at(c_X[1_size] + 3_size) = 0.0f;
+
+        m_VertexData.at(c_X[2_size] + 2_size) = 1.0f;
+        m_VertexData.at(c_X[2_size] + 3_size) = 1.0f;
+
+        m_VertexData.at(c_X[3_size] + 2_size) = 0.0f;
+        m_VertexData.at(c_X[3_size] + 3_size) = 1.0f;
+
+        m_VertexData.at(c_X[3_size] + 9_size) = 0.0f;
     }
 
     inline Quad::Quad(const eqx::Rectangle<float>& drawBox) noexcept
@@ -39,122 +49,104 @@ namespace pul
         setDrawBox(drawBox);
     }
 
-    inline void Quad::setUniforms() const noexcept
-    {
-        setUniforms(m_Model, 0U, m_Mixture, m_Color);
-    }
-
     inline void Quad::setMixture(float mixture) noexcept
     {
-        m_Mixture = mixture;
+        std::ranges::for_each(c_M,
+            [&](std::size_t index)
+            {
+                m_VertexData.at(index) = mixture;
+            });
     }
 
     inline void Quad::setColor(const glm::vec4 color) noexcept
     {
-        m_Color = color;
+        std::ranges::for_each(c_R,
+            [&](std::size_t index)
+            {
+                m_VertexData.at(index) = color.r;
+                m_VertexData.at(index + 1_size) = color.g;
+                m_VertexData.at(index + 2_size) = color.b;
+                m_VertexData.at(index + 3_size) = color.a;
+            });
     }
 
     inline void Quad::setDrawBox(
         const eqx::Rectangle<float>& drawBox) noexcept
     {
-        m_DrawBox = drawBox;
-        m_Model = glm::translate(
-            glm::mat4(1.0f),
-            glm::vec3(
-                m_DrawBox.x + m_DrawBox.w / 2.0f,
-                m_DrawBox.y + m_DrawBox.h / 2.0f,
-                0.0f));
-        m_Model = glm::scale(m_Model, glm::vec3(m_DrawBox.w,
-            m_DrawBox.h, 1.0f));
+        m_VertexData.at(c_X.at(0_size)) = drawBox.x;
+        m_VertexData.at(c_X.at(0_size) + 1_size) = 800.0f - drawBox.y;
+
+        m_VertexData.at(c_X.at(1_size)) = drawBox.getTopRightPoint().x;
+        m_VertexData.at(c_X.at(1_size) + 1_size) =
+            800.0f - drawBox.getTopRightPoint().y;
+
+        m_VertexData.at(c_X.at(2_size)) = drawBox.getBottomRightPoint().x;
+        m_VertexData.at(c_X.at(2_size) + 1_size) =
+            800.0f - drawBox.getBottomRightPoint().y;
+
+        m_VertexData.at(c_X.at(3_size)) = drawBox.getBottomLeftPoint().x;
+        m_VertexData.at(c_X.at(3_size) + 1_size) =
+            800.0f - drawBox.getBottomLeftPoint().y;
     }
 
-    inline void Quad::setTexture(std::string_view filePath) noexcept
+    inline void Quad::setTexture(Texture* tex) noexcept
     {
-        m_Texture.init(filePath);
+        m_Texture = tex;
     }
 
-    [[nodiscard]] constexpr float Quad::getMixture() const noexcept
+    inline void Quad::setTextureIndex(unsigned int index) noexcept
     {
-        return m_Mixture;
-    }
-
-    [[nodiscard]] constexpr const glm::vec4& Quad::getColor() const noexcept
-    {
-        return m_Color;
-    }
-
-    [[nodiscard]] constexpr const eqx::Rectangle<float>&
-        Quad::getDrawBox() const noexcept
-    {
-        return m_DrawBox;
+        std::ranges::for_each(c_T,
+            [&](std::size_t t)
+            {
+                m_VertexData.at(t) = static_cast<float>(index);
+            });
     }
 
     [[nodiscard]] constexpr const Texture& Quad::getTexture() const noexcept
     {
-        return m_Texture;
+        return *m_Texture;
     }
 
-    [[nodiscard]] constexpr const glm::mat4&
-        Quad::getModel() const noexcept
+    [[nodiscard]] constexpr const std::array<float, 40_size>&
+        Quad::getVertexData() const noexcept
     {
-        return m_Model;
+        return m_VertexData;
     }
 
-    inline void Quad::init(float width, float height) noexcept
+    [[nodiscard]] constexpr eqx::Rectangle<float>
+        Quad::getDrawBox() const noexcept
     {
-        stbi_set_flip_vertically_on_load(true);
-        s_Shader = Shader("Resources/Shaders/QuadVertex.glsl"sv,
-            "Resources/Shaders/QuadFragment.glsl"sv);
-        glm::mat4 projection = glm::ortho(0.0f, width, 0.0f, height,
-            -1.0f, 1.0f);
-        s_Shader.setMat4("u_Projection", projection);
-        s_Shader.setMat4("u_View", glm::mat4(1.0f));
-
-        s_Shader.setMat4("u_Model", glm::mat4(1.0f));
-        s_Shader.setFloat("u_Mixture", 0.0f);
-        s_Shader.setVec4("u_Color", glm::vec4());
-        s_Shader.setInt("u_Texture0", 0);
-
-        s_VertexBuffer = VertexBuffer(c_SquareVertices, c_SquareAttribs);
-        s_IndexBuffer = IndexBuffer(c_SquareIndices);
+        return eqx::Rectangle<float>(m_VertexData.at(c_X[0_size]),
+            800.0f - m_VertexData.at(c_X[0_size] + 1_size),
+            m_VertexData.at(c_X[2_size]) - m_VertexData.at(c_X[0_size]),
+            m_VertexData.at(c_X[2_size] + 1_size) -
+                m_VertexData.at(c_X[2_size] + 1_size));
     }
 
-    inline void Quad::free() noexcept
+    [[nodiscard]] constexpr glm::vec4 Quad::getColor() const noexcept
     {
-        s_Shader = Shader();
-        s_VertexBuffer = VertexBuffer();
-        s_IndexBuffer = IndexBuffer();
+        return glm::vec4(m_VertexData.at(c_R[0_size]),
+            m_VertexData.at(c_R[0_size] + 1_size),
+            m_VertexData.at(c_R[0_size] + 2_size),
+            m_VertexData.at(c_R[0_size] + 3_size));
     }
 
-    inline void Quad::setUniforms(const glm::mat4& model,
-        unsigned int texture,
-        float mixture,
-        const glm::vec4& color) noexcept
+    [[nodiscard]] constexpr float Quad::getMixture() const noexcept
     {
-        s_Shader.setMat4("u_Model", model);
-        s_Shader.setInt("u_Texture0", static_cast<int>(texture));
-        s_Shader.setFloat("u_Mixture", mixture);
-        s_Shader.setVec4("u_Color", color);
+        return m_VertexData.at(c_M[0_size]);
     }
 
-    inline void Quad::cleanUniforms() noexcept
+    [[nodiscard]] constexpr const std::array<int, 5_size>&
+        Quad::getAttribs() noexcept
     {
-        setUniforms(glm::mat4(1.0f), 0U, 0.0f, glm::vec4());
+        return c_Attribs;
     }
 
-    [[nodiscard]] inline const Shader& Quad::getShader() noexcept
+    [[nodiscard]] constexpr const std::array<unsigned int, 6_size>&
+        Quad::getIndices() noexcept
     {
-        return s_Shader;
-    }
-
-    [[nodiscard]] inline const VertexBuffer& Quad::getVertexBuffer() noexcept
-    {
-        return s_VertexBuffer;
-    }
-
-    [[nodiscard]] inline const IndexBuffer& Quad::getIndexBuffer() noexcept
-    {
-        return s_IndexBuffer;
+        return c_Indices;
     }
 }
 

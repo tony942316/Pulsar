@@ -20,9 +20,6 @@
 
 #include "Dependencies.hpp"
 
-#include "../Shader.hpp"
-#include "../VertexBuffer.hpp"
-#include "../IndexBuffer.hpp"
 #include "../Texture.hpp"
 
 namespace pul
@@ -33,61 +30,49 @@ namespace pul
         explicit constexpr Quad() noexcept;
         explicit inline Quad(const eqx::Rectangle<float>& drawBox) noexcept;
 
-        inline void setUniforms() const noexcept;
-
         inline void setMixture(float mixture) noexcept;
         inline void setColor(const glm::vec4 color) noexcept;
         inline void setDrawBox(const eqx::Rectangle<float>& drawBox) noexcept;
-        inline void setTexture(std::string_view filePath) noexcept;
+        inline void setTexture(Texture* texture) noexcept;
+        inline void setTextureIndex(unsigned int index) noexcept;
 
-        [[nodiscard]] constexpr float getMixture() const noexcept;
-        [[nodiscard]] constexpr const glm::vec4& getColor() const noexcept;
-        [[nodiscard]] constexpr const eqx::Rectangle<float>&
-            getDrawBox() const noexcept;
         [[nodiscard]] constexpr const Texture& getTexture() const noexcept;
-        [[nodiscard]] constexpr const glm::mat4& getModel() const noexcept;
+        [[nodiscard]] constexpr const std::array<float, 40_size>&
+            getVertexData() const noexcept;
+        [[nodiscard]] constexpr eqx::Rectangle<float>
+            getDrawBox() const noexcept;
+        [[nodiscard]] constexpr glm::vec4 getColor() const noexcept;
+        [[nodiscard]] constexpr float getMixture() const noexcept;
 
-        static inline void init(float width, float height) noexcept;
-        static inline void free() noexcept;
-
-        static inline void setUniforms(const glm::mat4& model,
-            unsigned int texture,
-            float mixture,
-            const glm::vec4& color) noexcept;
-        static inline void cleanUniforms() noexcept;
-
-        [[nodiscard]] static inline const Shader& getShader() noexcept;
-        [[nodiscard]] static inline const VertexBuffer&
-            getVertexBuffer() noexcept;
-        [[nodiscard]] static inline const IndexBuffer&
-            getIndexBuffer() noexcept;
+        [[nodiscard]] static constexpr const std::array<int, 5_size>&
+            getAttribs() noexcept;
+        [[nodiscard]] static constexpr const std::array<unsigned int, 6_size>&
+            getIndices() noexcept;
 
     private:
-        float m_Mixture;
-        glm::vec4 m_Color;
+        Texture* m_Texture;
+        /*
+            x, y, ts, tt, r, g, b, a, m, ti
+            0, 1, 2,  3,  4, 5, 6, 7, 8, 9
+         */
+        std::array<float, 40_size> m_VertexData;
 
-        eqx::Rectangle<float> m_DrawBox;
-        glm::mat4 m_Model;
+        static constexpr auto c_X = std::array<std::size_t, 4_size>({
+            0_size, 10_size, 20_size, 30_size });
 
-        Texture m_Texture;
+        static constexpr auto c_R = c_X | std::views::transform(
+            [](std::size_t x) constexpr { return x + 4_size; });
+        static constexpr auto c_M = c_X | std::views::transform(
+            [](std::size_t x) constexpr { return x + 8_size; });
+        static constexpr auto c_T = c_X | std::views::transform(
+            [](std::size_t x) constexpr { return x + 9_size; });
 
-        constinit static inline auto s_Shader = Shader();
-        constinit static inline auto s_VertexBuffer = VertexBuffer();
-        constinit static inline auto s_IndexBuffer = IndexBuffer();
+        static constexpr auto c_Attribs = std::array<int, 5_size>({
+            2, 2, 4, 1, 1 });
 
-        static constexpr auto c_SquareVertices = std::array<float, 16_size>({
-            -0.5f,  0.5f, 0.0f, 1.0f,
-             0.5f,  0.5f, 1.0f, 1.0f,
-             0.5f, -0.5f, 1.0f, 0.0f,
-            -0.5f, -0.5f, 0.0f, 0.0f});
-
-        static constexpr auto c_SquareIndices =
-            std::array<unsigned int, 6_size>({
-                0, 1, 3,
-                1, 2, 3});
-
-        static constexpr auto c_SquareAttribs = std::array<int, 2_size>({
-            2, 2 });
+        static constexpr auto c_Indices = std::array<unsigned int, 6_size>({
+            0U, 1U, 2U,
+            0U, 2U, 3U });
     };
 }
 

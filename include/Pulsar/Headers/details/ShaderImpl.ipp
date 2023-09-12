@@ -78,6 +78,22 @@ namespace pul
         disable();
     }
 
+    template <typename T>
+        requires requires(const T& values)
+        {
+            std::ranges::size(values);
+            std::ranges::data(values);
+        }
+    inline void Shader::setInts(std::string_view name,
+        const T& values) const noexcept
+    {
+        enable();
+        glUniform1iv(glGetUniformLocation(m_Shader.get(), name.data()),
+            static_cast<GLsizei>(std::ranges::size(values)),
+            std::ranges::data(values));
+        disable();
+    }
+
     inline void Shader::setFloat(std::string_view name,
         float value) const noexcept
     {

@@ -49,20 +49,21 @@ namespace pul
         std::string_view name) noexcept
     {
         glfwInit();
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_RESIZABLE, false);
+
         Keyboard::init();
 
         m_Width = static_cast<float>(width);
         m_Height = static_cast<float>(height);
 
-        m_Name.init(delStr, genStr);
+        m_Name.init();
         *m_Name.get() = name;
 
-        m_UpdateFunc.init(delFunc, genFunc);
-        m_RenderFunc.init(delFunc, genFunc);
+        m_UpdateFunc.init();
+        m_RenderFunc.init();
 
         m_Window.init(glfwDestroyWindow, glfwCreateWindow, width, height,
             m_Name.get()->c_str(), nullptr, nullptr);
@@ -197,26 +198,6 @@ namespace pul
     [[nodiscard]] inline std::string_view Window::getName() const noexcept
     {
         return *m_Name.get();
-    }
-
-    [[nodiscard]] inline std::string* Window::genStr() noexcept
-    {
-        return new std::string();
-    }
-
-    inline void Window::delStr(std::string* str) noexcept
-    {
-        delete str;
-    }
-
-    [[nodiscard]] inline std::function<void()>* Window::genFunc() noexcept
-    {
-        return new std::function<void()>();
-    }
-
-    inline void Window::delFunc(std::function<void()>* func) noexcept
-    {
-        delete func;
     }
 }
 

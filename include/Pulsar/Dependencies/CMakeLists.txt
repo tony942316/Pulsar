@@ -17,15 +17,19 @@
 
 cmake_minimum_required(VERSION 3.20)
 
-project(
-    Pulsar
-    VERSION 0.1.0
-    DESCRIPTION "2D Game Engine"
-    LANGUAGES C CXX)
+add_subdirectory(Equinox)
 
-add_subdirectory(include/Pulsar/Dependencies)
-add_subdirectory(src)
+set(GLFW_BUILD_DOCS Off CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS Off CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES Off CACHE BOOL "" FORCE)
+add_subdirectory(glfw)
 
-if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-    add_subdirectory(ProvingGrounds)
-endif ()
+add_subdirectory(glm)
+
+add_subdirectory(freetype)
+
+add_library(stb_image STATIC ../../../src/stb_image.c)
+target_include_directories(stb_image PUBLIC stb)
+
+add_library(glad STATIC glad/src/glad.c)
+target_include_directories(glad PUBLIC glad/include)

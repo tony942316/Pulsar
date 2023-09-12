@@ -10,3 +10,6 @@
 [submodule "include/Pulsar/Dependencies/stb"]
 	path = include/Pulsar/Dependencies/stb
 	url = https://github.com/nothings/stb.git
+[submodule "include/Pulsar/Dependencies/freetype"]
+	path = include/Pulsar/Dependencies/freetype
+	url = https://github.com/freetype/freetype.git

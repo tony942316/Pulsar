@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_VERTEXBUFFER_HPP
-#define PULSAR_VERTEXBUFFER_HPP
+#ifndef PULSAR_FONT_HPP
+#define PULSAR_FONT_HPP
 
-// Declarations in "details/VertexBufferDecl.hpp"
-#include "details/VertexBufferImpl.ipp"
+// Declarations in "details/FontDecl.hpp"
+#include "details/FontImpl.ipp"
 
-#endif // PULSAR_VERTEXBUFFER_HPP
+#endif // PULSAR_FONT_HPP

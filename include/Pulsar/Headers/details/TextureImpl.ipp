@@ -36,10 +36,17 @@ namespace pul
         init(filePath);
     }
 
+    inline Texture::Texture(FT_GlyphSlot glyph) noexcept
+        :
+        Texture()
+    {
+        init(glyph);
+    }
+
     inline void Texture::init(std::string_view filePath) noexcept
     {
         m_Texture.init(delTex, genTex);
-        m_FilePath.init(delStr, genStr);
+        m_FilePath.init();
         *m_FilePath.get() = filePath;
 
         enable();
@@ -63,6 +70,26 @@ namespace pul
         glGenerateMipmap(GL_TEXTURE_2D);
 
         stbi_image_free(data);
+
+        disable();
+    }
+
+    inline void Texture::init(FT_GlyphSlot glyph) noexcept
+    {
+        m_Texture.init(delTex, genTex);
+
+        enable();
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
+            static_cast<GLsizei>(glyph->bitmap.width),
+            static_cast<GLsizei>(glyph->bitmap.rows),
+            0, GL_RED, GL_UNSIGNED_BYTE,
+            glyph->bitmap.buffer);
 
         disable();
     }
@@ -98,16 +125,6 @@ namespace pul
     inline void Texture::delTex(unsigned int tex) noexcept
     {
         glDeleteTextures(1, &tex);
-    }
-
-    [[nodiscard]] inline std::string* Texture::genStr() noexcept
-    {
-        return new std::string();
-    }
-
-    inline void Texture::delStr(std::string* str) noexcept
-    {
-        delete str;
     }
 }
 

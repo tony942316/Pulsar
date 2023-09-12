@@ -23,35 +23,72 @@
 namespace pul
 {
     inline void Renderer::draw(const Shader& shader,
-        const VertexBuffer& vertexBuffer,
-        const IndexBuffer& indexBuffer) noexcept
+        const VertexArray& vertexArray) noexcept
     {
         shader.enable();
-        vertexBuffer.enable();
-        indexBuffer.enable();
+        vertexArray.enable();
 
-        glDrawElements(GL_TRIANGLES, static_cast<int>(indexBuffer.getCount()),
+        glDrawElements(GL_TRIANGLES,
+            static_cast<int>(vertexArray.getIndexCount()),
             GL_UNSIGNED_INT, 0);
 
+        vertexArray.disable();
         shader.disable();
-        vertexBuffer.disable();
-        indexBuffer.disable();
     }
 
-    inline void Renderer::draw(const Quad& quad) noexcept
+    inline void Renderer::draw(Quad& quad) noexcept
     {
-        quad.setUniforms();
+        s_VA.clear();
+        s_VA.addVertices(quad.getVertexData());
+        s_VA.addIndices(Quad::getIndices());
 
         Texture::enableTextureSlot(0U);
+        quad.setTextureIndex(0U);
         quad.getTexture().enable();
 
-        draw(Quad::getShader(), Quad::getVertexBuffer(),
-            Quad::getIndexBuffer());
+        draw(s_QuadShader, s_VA);
 
-        Texture::enableTextureSlot(0U);
         quad.getTexture().disable();
+    }
 
-        Quad::cleanUniforms();
+    inline void Renderer::draw(std::vector<Quad>& quads) noexcept
+    {
+        s_VA.clear();
+        std::ranges::for_each(std::views::iota(0,
+                static_cast<int>(std::ranges::size(quads))),
+            [&quads](int val)
+            {
+                auto& quad = quads[static_cast<std::size_t>(val)];
+                s_VA.addVertices(quad.getVertexData());
+
+                auto v = Quad::getIndices() |
+                    std::views::transform([val](unsigned int x)
+                        { return x + (4U * static_cast<unsigned int>(val)); });
+                auto indices = std::array<unsigned int, 6_size>();
+                std::ranges::copy(v, std::ranges::begin(indices));
+                s_VA.addIndices(indices);
+
+                Texture::enableTextureSlot(static_cast<unsigned int>(val));
+                quad.setTextureIndex(static_cast<unsigned int>(val));
+                quad.getTexture().enable();
+            });
+
+        draw(s_QuadShader, s_VA);
+    }
+
+    inline void Renderer::init(float width, float height) noexcept
+    {
+        s_VA.init();
+        s_VA.setAttribs(Quad::getAttribs());
+
+        s_QuadShader.init("Resources/Shaders/QuadVertex.glsl"sv,
+            "Resources/Shaders/QuadFragment.glsl"sv);
+        auto projection = glm::ortho(0.0f, width, 0.0f, height, -1.0f, 1.0f);
+        s_QuadShader.setMat4("u_Projection", projection);
+        s_QuadShader.setMat4("u_View", glm::mat4(1.0f));
+        auto textures = std::array<int, 32_size>();
+        std::ranges::copy(std::views::iota(0, 32), textures.begin());
+        s_QuadShader.setInts("u_Textures", textures);
     }
 }
 

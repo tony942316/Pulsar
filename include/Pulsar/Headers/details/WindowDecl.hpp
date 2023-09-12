@@ -47,15 +47,6 @@ namespace pul
         [[nodiscard]] inline std::string_view getName() const noexcept;
 
     private:
-        [[nodiscard]] static inline std::string* genStr() noexcept;
-        static inline void delStr(std::string* str) noexcept;
-        [[nodiscard]] static inline std::function<void()>* genFunc() noexcept;
-        static inline void delFunc(std::function<void()>* func) noexcept;
-
-        using UniqueString =
-            eqx::UniqueResource<std::string*, decltype(&delStr)>;
-        using UniqueFunction =
-            eqx::UniqueResource<std::function<void()>*, decltype(&delFunc)>;
         using UniqueWindow =
             eqx::UniqueResource<GLFWwindow*, decltype(&glfwDestroyWindow)>;
 
@@ -64,8 +55,8 @@ namespace pul
 
         std::size_t m_FrameCount;
 
-        UniqueString m_Name;
-        UniqueFunction m_UpdateFunc, m_RenderFunc;
+        eqx::UniquePointer<std::string> m_Name;
+        eqx::UniquePointer<std::function<void()>> m_UpdateFunc, m_RenderFunc;
         UniqueWindow m_Window;
     };
 }

@@ -21,8 +21,8 @@
 #include "Dependencies.hpp"
 
 #include "../Shader.hpp"
-#include "../VertexBuffer.hpp"
-#include "../IndexBuffer.hpp"
+#include "../VertexArray.hpp"
+#include "../Texture.hpp"
 #include "../Quad.hpp"
 
 namespace pul
@@ -38,12 +38,15 @@ namespace pul
         ~Renderer() = delete;
 
         static inline void draw(const Shader& shader,
-            const VertexBuffer& vertexBuffer,
-            const IndexBuffer& indexBuffer) noexcept;
+            const VertexArray& vertexArray) noexcept;
+        static inline void draw(Quad& quad) noexcept;
+        static inline void draw(std::vector<Quad>& quads) noexcept;
 
-        static inline void draw(const Quad& quad) noexcept;
+        static inline void init(float width, float height) noexcept;
 
     private:
+        constinit static inline auto s_QuadShader = Shader();
+        constinit static inline auto s_VA = VertexArray();
     };
 }
 

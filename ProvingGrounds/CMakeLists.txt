@@ -17,27 +17,23 @@
 
 cmake_minimum_required(VERSION 3.20)
 
-set(CMAKE_CXX_EXTENSIONS Off)
-set(CMAKE_EXPORT_COMPILE_COMMANDS On)
-
 add_executable(ProvingGrounds Main.cpp)
 
-add_custom_target(copy_resources ALL
+set_target_properties(ProvingGrounds PROPERTIES
+    CXX_EXTENSIONS Off
+    EXPORT_COMPILE_COMMANDS On)
+
+add_custom_command(TARGET ProvingGrounds PRE_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${PROJECT_SOURCE_DIR}/ProvingGrounds/Resources
-    ${PROJECT_BINARY_DIR}/ProvingGrounds/Resources
+        ${CMAKE_CURRENT_SOURCE_DIR}/Resources
+        ${CMAKE_CURRENT_BINARY_DIR}/Resources
     COMMENT "Copying Resources!")
-
-add_dependencies(ProvingGrounds copy_resources)
-
-target_include_directories(ProvingGrounds PRIVATE ../include)
 
 target_link_libraries(ProvingGrounds PRIVATE Pulsar)
 
-target_compile_features(ProvingGrounds PRIVATE cxx_std_20)
 if (MSVC)
-    target_compile_options(ProvingGrounds PRIVATE /W4 /GR- /Zc:preprocessor)
+    target_compile_options(ProvingGrounds PRIVATE /W4 /GR- /O2)
 else ()
-    target_compile_options(ProvingGrounds PRIVATE -Wall -Wextra -Wpedantic
+    target_compile_options(ProvingGrounds PRIVATE -O3 -Wall -Wextra -Wpedantic
         -Wconversion -fno-rtti -fno-exceptions)
 endif()

@@ -27,8 +27,10 @@ namespace pul
     public:
         explicit constexpr Texture() noexcept;
         explicit inline Texture(std::string_view filePath) noexcept;
+        explicit inline Texture(FT_GlyphSlot glyph) noexcept;
 
         inline void init(std::string_view filePath) noexcept;
+        inline void init(FT_GlyphSlot glyph) noexcept;
         inline void free() noexcept;
 
         inline void enable() const noexcept;
@@ -39,14 +41,11 @@ namespace pul
     private:
         [[nodiscard]] static inline unsigned int genTex() noexcept;
         static inline void delTex(unsigned int tex) noexcept;
-        [[nodiscard]] static inline std::string* genStr() noexcept;
-        static inline void delStr(std::string* str) noexcept;
 
         using Tex = eqx::UniqueResource<unsigned int, decltype(&delTex)>;
-        using FilePath = eqx::UniqueResource<std::string*, decltype(&delStr)>;
 
         Tex m_Texture;
-        FilePath m_FilePath;
+        eqx::UniquePointer<std::string> m_FilePath;
     };
 }
 

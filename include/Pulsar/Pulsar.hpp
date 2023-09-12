@@ -18,14 +18,14 @@
 #ifndef PULSAR_HPP
 #define PULSAR_HPP
 
-#include "Headers/VertexBuffer.hpp"
-#include "Headers/IndexBuffer.hpp"
+#include "Headers/VertexArray.hpp"
 #include "Headers/Shader.hpp"
 #include "Headers/Mouse.hpp"
 #include "Headers/Keyboard.hpp"
 #include "Headers/Window.hpp"
 #include "Headers/Texture.hpp"
-#include "Headers/Renderer.hpp"
 #include "Headers/Quad.hpp"
+#include "Headers/Font.hpp"
+#include "Headers/Renderer.hpp"
 
 #endif // PULSAR_HPP

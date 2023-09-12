@@ -38,6 +38,14 @@ namespace pul
         inline void free() noexcept;
 
         inline void setInt(std::string_view name, int value) const noexcept;
+        template <typename T>
+            requires requires(const T& values)
+            {
+                std::ranges::size(values);
+                std::ranges::data(values);
+            }
+        inline void setInts(std::string_view name,
+            const T& values) const noexcept;
         inline void setFloat(std::string_view name, float value) const noexcept;
         inline void setVec4(std::string_view name,
             const glm::vec4& value) const noexcept;

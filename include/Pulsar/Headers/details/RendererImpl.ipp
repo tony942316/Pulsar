@@ -36,108 +36,30 @@ namespace pul
         shader.disable();
     }
 
-    inline void Renderer::draw(Quad& quad) noexcept
+    inline void Renderer::draw(const batch::Quad& quads) noexcept
     {
+        quads.enableTextures();
         s_VA.clear();
-        s_VA.addVertices(quad.getVertexData());
-        s_VA.addIndices(Quad::getIndices());
-
-        Texture::enableTextureSlot(0U);
-        quad.setTextureIndex(0U);
-        quad.getTexture().enable();
-
-        draw(s_QuadShader, s_VA);
-
-        quad.getTexture().disable();
+        s_VA.addVertices(quads.getData());
+        s_VA.addIndices(batch::Quad::getIndices());
+        s_VA.setAttribs(batch::Quad::getAttribs());
+        draw(shader::getQuad(), s_VA);
     }
 
-    inline void Renderer::draw(std::vector<Quad>& quads) noexcept
+    inline void Renderer::drawText(const batch::Quad& quads) noexcept
     {
+        quads.enableTextures();
         s_VA.clear();
-        int index = 0;
-        std::ranges::for_each(quads,
-            [&index](Quad& quad)
-            {
-                s_VA.addVertices(quad.getVertexData());
+        s_VA.addVertices(quads.getData());
+        s_VA.addIndices(batch::Quad::getIndices());
+        s_VA.setAttribs(batch::Quad::getAttribs());
 
-                auto v = Quad::getIndices() |
-                    std::views::transform([&index](unsigned int x)
-                        {
-                            return x + (4U * static_cast<unsigned int>(index));
-                        });
-                auto indices = std::array<unsigned int, 6_size>();
-                std::ranges::copy(v, std::ranges::begin(indices));
-                s_VA.addIndices(indices);
-
-                Texture::enableTextureSlot(static_cast<unsigned int>(index));
-                quad.setTextureIndex(static_cast<unsigned int>(index));
-                quad.getTexture().enable();
-
-                index++;
-                if (index == 32)
-                {
-                    draw(s_QuadShader, s_VA);
-                    s_VA.clear();
-                    index = 0;
-                }
-            });
-
-        draw(s_QuadShader, s_VA);
+        draw(shader::getText(), s_VA);
     }
 
-    inline void Renderer::drawText(std::vector<Quad>& quads) noexcept
-    {
-        s_VA.clear();
-        int index = 0;
-        std::ranges::for_each(quads,
-            [&index](Quad& quad)
-            {
-                s_VA.addVertices(quad.getVertexData());
-
-                auto v = Quad::getIndices() |
-                    std::views::transform([&index](unsigned int x)
-                        {
-                            return x + (4U * static_cast<unsigned int>(index));
-                        });
-                auto indices = std::array<unsigned int, 6_size>();
-                std::ranges::copy(v, std::ranges::begin(indices));
-                s_VA.addIndices(indices);
-
-                Texture::enableTextureSlot(static_cast<unsigned int>(index));
-                quad.setTextureIndex(static_cast<unsigned int>(index));
-                quad.getTexture().enable();
-
-                index++;
-                if (index == 32)
-                {
-                    draw(s_TextShader, s_VA);
-                    s_VA.clear();
-                    index = 0;
-                }
-            });
-
-        draw(s_TextShader, s_VA);
-    }
-
-    inline void Renderer::init(float width, float height) noexcept
+    inline void Renderer::init() noexcept
     {
         s_VA.init();
-        s_VA.setAttribs(Quad::getAttribs());
-
-        s_QuadShader.init("Resources/Shaders/QuadVertex.glsl"sv,
-            "Resources/Shaders/QuadFragment.glsl"sv);
-        auto projection = glm::ortho(0.0f, width, 0.0f, height, -1.0f, 1.0f);
-        s_QuadShader.setMat4("u_Projection"sv, projection);
-        s_QuadShader.setMat4("u_View"sv, glm::mat4(1.0f));
-        auto textures = std::array<int, 32_size>();
-        std::ranges::copy(std::views::iota(0, 32), textures.begin());
-        s_QuadShader.setInts("u_Textures"sv, textures);
-
-        s_TextShader.init("Resources/Shaders/QuadVertex.glsl"sv,
-            "Resources/Shaders/TextFragment.glsl"sv);
-        s_TextShader.setMat4("u_Projection"sv, projection);
-        s_TextShader.setMat4("u_View"sv, glm::mat4(1.0f));
-        s_TextShader.setInts("u_Textures"sv, textures);
     }
 }
 

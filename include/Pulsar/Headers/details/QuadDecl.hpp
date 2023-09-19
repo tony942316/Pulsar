@@ -21,58 +21,91 @@
 #include "Dependencies.hpp"
 
 #include "../Texture.hpp"
+#include "../Shader.hpp"
 
-namespace pul
+namespace pul::shader
+{
+    [[nodiscard]] inline const Shader& getQuad() noexcept;
+    [[nodiscard]] inline Shader makeQuad() noexcept;
+}
+
+namespace pul::batch
 {
     class Quad
     {
     public:
         explicit constexpr Quad() noexcept;
-        explicit inline Quad(const eqx::Rectangle<float>& drawBox) noexcept;
 
-        inline void setMixture(float mixture) noexcept;
-        inline void setColor(const glm::vec4 color) noexcept;
-        inline void setDrawBox(const eqx::Rectangle<float>& drawBox) noexcept;
-        inline void setTexture(Texture* texture) noexcept;
-        inline void setTextureIndex(unsigned int index) noexcept;
+        constexpr void setRect(std::size_t index,
+            eqx::Rectangle<float> rect) noexcept;
 
-        [[nodiscard]] constexpr const Texture& getTexture() const noexcept;
-        [[nodiscard]] constexpr const std::array<float, 40_size>&
-            getVertexData() const noexcept;
-        [[nodiscard]] constexpr eqx::Rectangle<float>
-            getDrawBox() const noexcept;
-        [[nodiscard]] constexpr glm::vec4 getColor() const noexcept;
-        [[nodiscard]] constexpr float getMixture() const noexcept;
+        constexpr void setTexture(std::size_t index,
+            const Texture& texture) noexcept;
 
-        [[nodiscard]] static constexpr const std::array<int, 5_size>&
-            getAttribs() noexcept;
-        [[nodiscard]] static constexpr const std::array<unsigned int, 6_size>&
+        inline void enableTextures() const noexcept;
+
+        constexpr const std::array<float, 640_size>& getData() const noexcept;
+
+        static inline void setUniforms(float w, float h) noexcept;
+
+        static consteval const std::array<unsigned int, 192_size>&
             getIndices() noexcept;
 
+        static consteval const std::array<int, 3_size>& getAttribs() noexcept;
+
     private:
-        Texture* m_Texture;
+        std::array<float, 640_size> m_Data;
+        std::array<const Texture*, 32_size> m_Textures;
+
+        static constexpr auto c_Attribs = std::array<int, 3_size>({ 2, 2, 1 });
+        static constexpr auto c_Indices = std::invoke(
+            []() constexpr
+            {
+                constexpr auto c_Mask = std::array<unsigned int, 6_size>({
+                    0U, 1U, 2U,
+                    0U, 2U, 3U });
+
+                auto result = std::array<unsigned int, 192_size>();
+
+                auto off = 0_size;
+                auto trans = 0U;
+                for (auto index = 0_size; index < 32_size; index++)
+                {
+                    off = index * 6_size;
+                    trans = static_cast<unsigned int>(index) * 4U;
+
+                    result.at(0_size + off) =
+                        c_Mask.at(0_size) + trans;
+                    result.at(1_size + off) =
+                        c_Mask.at(1_size) + trans;
+                    result.at(2_size + off) =
+                        c_Mask.at(2_size) + trans;
+                    result.at(3_size + off) =
+                        c_Mask.at(3_size) + trans;
+                    result.at(4_size + off) =
+                        c_Mask.at(4_size) + trans;
+                    result.at(5_size + off) =
+                        c_Mask.at(5_size) + trans;
+                }
+
+                return result;
+            });
+
         /*
-            x, y, ts, tt, r, g, b, a, m, ti
-            0, 1, 2,  3,  4, 5, 6, 7, 8, 9
-         */
-        std::array<float, 40_size> m_VertexData;
+            x, y, s, t, tex
+            0, 1, 2, 3, 4
+            0, ...
+            0, ...
+            0, ...
+        */
+        static constexpr auto c_IndexX = 0_size;
+        static constexpr auto c_IndexY = 1_size;
+        static constexpr auto c_IndexS = 2_size;
+        static constexpr auto c_IndexT = 3_size;
+        static constexpr auto c_IndexTex = 4_size;
 
-        static constexpr auto c_X = std::array<std::size_t, 4_size>({
-            0_size, 10_size, 20_size, 30_size });
-
-        static constexpr auto c_R = c_X | std::views::transform(
-            [](std::size_t x) constexpr { return x + 4_size; });
-        static constexpr auto c_M = c_X | std::views::transform(
-            [](std::size_t x) constexpr { return x + 8_size; });
-        static constexpr auto c_T = c_X | std::views::transform(
-            [](std::size_t x) constexpr { return x + 9_size; });
-
-        static constexpr auto c_Attribs = std::array<int, 5_size>({
-            2, 2, 4, 1, 1 });
-
-        static constexpr auto c_Indices = std::array<unsigned int, 6_size>({
-            0U, 1U, 2U,
-            0U, 2U, 3U });
+        static constexpr auto c_VStride = 5_size;
+        static constexpr auto c_QStride = c_VStride * 4_size;
     };
 }
 

@@ -30,8 +30,17 @@ namespace pul
 
     inline Shader::Shader(std::string_view vertexFilePath,
         std::string_view fragmentFilePath) noexcept
+        :
+        Shader()
     {
         init(vertexFilePath, fragmentFilePath);
+    }
+
+    inline Shader::Shader(const ShaderGenerator& sg) noexcept
+        :
+        Shader()
+    {
+        init(sg);
     }
 
     inline void Shader::init(std::string_view vertexFilePath,
@@ -47,6 +56,27 @@ namespace pul
         auto vertexShader = compileShader(GL_VERTEX_SHADER, vertexSrc);
 
         auto fragmentStr = parseShader(fragmentFilePath);
+        auto fragmentSrc = fragmentStr.c_str();
+        auto fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentSrc);
+
+        m_Shader = linkShader(vertexShader, fragmentShader);
+
+        glDeleteShader(vertexShader);
+        glDeleteShader(fragmentShader);
+    }
+
+    inline void Shader::init(const ShaderGenerator& sg) noexcept
+    {
+        if (m_Shader.get() != 0U)
+        {
+            m_Shader.free();
+        }
+
+        auto vertexStr = sg.getVertexSource();
+        auto vertexSrc = vertexStr.c_str();
+        auto vertexShader = compileShader(GL_VERTEX_SHADER, vertexSrc);
+
+        auto fragmentStr = sg.getFragmentSource();
         auto fragmentSrc = fragmentStr.c_str();
         auto fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentSrc);
 
@@ -165,6 +195,27 @@ namespace pul
         glGetProgramInfoLog(shaderProgram.get(), 512, nullptr, infoLog);
         eqx::runtimeAssert(success, "Shader Link Error: "s + infoLog);
         return shaderProgram;
+    }
+
+    namespace shader
+    {
+        [[nodiscard]] inline const Shader& getBasic() noexcept
+        {
+            static auto shader = makeBasic();
+            return shader;
+        }
+
+        [[nodiscard]] inline Shader makeBasic() noexcept
+        {
+            auto vc = pul::ShaderGenerator::ShaderConfig();
+            vc.inputs.emplace_back("layout (location = 0) in vec3 i_Pos;\n");
+            vc.code = "gl_Position = vec4(i_Pos, 1.0f);\n";
+            auto fc = pul::ShaderGenerator::ShaderConfig();
+            fc.outputs.emplace_back("out vec4 o_Color;\n");
+            fc.code = "o_Color = vec4(0.8f, 0.0f, 0.2f, 1.0f);\n";
+            auto s = pul::ShaderGenerator(vc, fc);
+            return Shader(s);
+        }
     }
 }
 

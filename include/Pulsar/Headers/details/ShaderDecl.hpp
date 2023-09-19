@@ -20,6 +20,8 @@
 
 #include "Dependencies.hpp"
 
+#include "../ShaderGenerator.hpp"
+
 namespace pul
 {
     class Shader
@@ -28,9 +30,11 @@ namespace pul
         explicit constexpr Shader() noexcept;
         explicit inline Shader(std::string_view vertexFilePath,
             std::string_view fragmentFilePath) noexcept;
+        explicit inline Shader(const ShaderGenerator& sg) noexcept;
 
         inline void init(std::string_view vertexFilePath,
             std::string_view fragmentFilePath) noexcept;
+        inline void init(const ShaderGenerator& sg) noexcept;
 
         inline void enable() const noexcept;
         inline void disable() const noexcept;
@@ -68,6 +72,117 @@ namespace pul
 
         ShaderID m_Shader;
     };
+
+    namespace shader
+    {
+        [[nodiscard]] static inline const Shader& getBasic() noexcept;
+        [[nodiscard]] static inline Shader makeBasic() noexcept;
+    }
+
+    namespace batch
+    {
+        class Basic
+        {
+        public:
+            explicit constexpr Basic() noexcept
+                :
+                m_Data()
+            {
+            }
+
+            constexpr void setXYZ(std::size_t index, const glm::vec3& coord)
+            {
+                setX(index, coord.x);
+                setY(index, coord.y);
+                setZ(index, coord.z);
+            }
+
+            constexpr void setX(std::size_t index, float x) noexcept
+            {
+                eqx::runtimeAssert(index < 200_size, "Batch Overflow"sv);
+                m_Data.at(0_size + (index * 3_size)) = x;
+            }
+
+            constexpr void setY(std::size_t index, float y) noexcept
+            {
+                eqx::runtimeAssert(index < 200_size, "Batch Overflow"sv);
+                m_Data.at(1_size + (index * 3_size)) = y;
+            }
+
+            constexpr void setZ(std::size_t index, float z) noexcept
+            {
+                eqx::runtimeAssert(index < 200_size, "Batch Overflow"sv);
+                m_Data.at(2_size + (index * 3_size)) = z;
+            }
+
+            constexpr const std::array<float, 600_size>& getData() noexcept
+            {
+                return m_Data;
+            }
+
+        private:
+            std::array<float, 600_size> m_Data;
+        };
+
+        class VP
+        {
+        public:
+            explicit constexpr VP() noexcept
+                :
+                m_Data()
+            {
+            }
+
+            constexpr void setXYZ(std::size_t index, const glm::vec3& coord)
+            {
+                setX(index, coord.x);
+                setY(index, coord.y);
+                setZ(index, coord.z);
+            }
+
+            constexpr void setX(std::size_t index, float x) noexcept
+            {
+                eqx::runtimeAssert(index < 200_size, "Batch Overflow"sv);
+                m_Data.at(0_size + (index * 9_size)) = x;
+            }
+
+            constexpr void setY(std::size_t index, float y) noexcept
+            {
+                eqx::runtimeAssert(index < 200_size, "Batch Overflow"sv);
+                m_Data.at(1_size + (index * 9_size)) = y;
+            }
+
+            constexpr void setZ(std::size_t index, float z) noexcept
+            {
+                eqx::runtimeAssert(index < 200_size, "Batch Overflow"sv);
+                m_Data.at(2_size + (index * 9_size)) = z;
+            }
+
+            constexpr void setTrans(std::size_t index, const glm::vec3& coord)
+            {
+                eqx::runtimeAssert(index < 200_size, "Batch Overflow"sv);
+                m_Data.at(3_size + (index * 9_size)) = coord.x;
+                m_Data.at(4_size + (index * 9_size)) = coord.y;
+                m_Data.at(5_size + (index * 9_size)) = coord.z;
+            }
+
+            constexpr void setScale(std::size_t index, const glm::vec3& coord)
+            {
+                eqx::runtimeAssert(index < 200_size, "Batch Overflow"sv);
+                m_Data.at(6_size + (index * 9_size)) = coord.x;
+                m_Data.at(7_size + (index * 9_size)) = coord.y;
+                m_Data.at(8_size + (index * 9_size)) = coord.z;
+            }
+
+            constexpr const std::array<float, 600_size>& getData() noexcept
+            {
+                return m_Data;
+            }
+
+        private:
+            std::array<float, 600_size> m_Data;
+        };
+    }
 }
 
 #endif // PULSAR_DETAILS_SHADERDECL_HPP

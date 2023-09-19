@@ -24,6 +24,7 @@
 #include "../VertexArray.hpp"
 #include "../Texture.hpp"
 #include "../Quad.hpp"
+#include "../Font.hpp"
 
 namespace pul
 {
@@ -39,15 +40,12 @@ namespace pul
 
         static inline void draw(const Shader& shader,
             const VertexArray& vertexArray) noexcept;
-        static inline void draw(Quad& quad) noexcept;
-        static inline void draw(std::vector<Quad>& quads) noexcept;
-        static inline void drawText(std::vector<Quad>& quads) noexcept;
+        static inline void draw(const batch::Quad& quads) noexcept;
+        static inline void drawText(const batch::Quad& quads) noexcept;
 
-        static inline void init(float width, float height) noexcept;
+        static inline void init() noexcept;
 
     private:
-        constinit static inline auto s_QuadShader = Shader();
-        constinit static inline auto s_TextShader = Shader();
         constinit static inline auto s_VA = VertexArray();
     };
 }

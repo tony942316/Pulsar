@@ -23,11 +23,19 @@ set_target_properties(ProvingGrounds PROPERTIES
     CXX_EXTENSIONS Off
     EXPORT_COMPILE_COMMANDS On)
 
-add_custom_command(TARGET ProvingGrounds PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_CURRENT_SOURCE_DIR}/Resources
-        ${CMAKE_CURRENT_BINARY_DIR}/Resources
-    COMMENT "Copying Resources!")
+if (MSVC)
+    add_custom_command(TARGET ProvingGrounds PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_CURRENT_SOURCE_DIR}/Release/Resources
+            ${CMAKE_CURRENT_BINARY_DIR}/Release/Resources
+        COMMENT "Copying Resources!")
+else ()
+    add_custom_command(TARGET ProvingGrounds PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_CURRENT_SOURCE_DIR}/Resources
+            ${CMAKE_CURRENT_BINARY_DIR}/Resources
+        COMMENT "Copying Resources!")
+endif()
 
 target_link_libraries(ProvingGrounds PRIVATE Pulsar)
 

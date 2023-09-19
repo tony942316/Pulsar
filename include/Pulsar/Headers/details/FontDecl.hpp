@@ -21,6 +21,7 @@
 #include "Dependencies.hpp"
 
 #include "../Texture.hpp"
+#include "../Shader.hpp"
 #include "../Quad.hpp"
 
 namespace pul
@@ -33,9 +34,11 @@ namespace pul
 
         inline void init(std::string_view filePath) noexcept;
 
-        [[nodiscard]] inline std::vector<Quad> getText(
+        [[nodiscard]] inline batch::Quad getText(
             std::string_view text,
             const eqx::Point<float>& loc = eqx::Point<float>()) noexcept;
+
+        static inline void setUniforms(float w, float h) noexcept;
 
     private:
         struct Character
@@ -52,6 +55,12 @@ namespace pul
 
         constinit static inline auto s_FT = FT_Library();
     };
+}
+
+namespace pul::shader
+{
+    [[nodiscard]] inline const Shader& getText() noexcept;
+    [[nodiscard]] inline Shader makeText() noexcept;
 }
 
 #endif // PULSAR_DETAILS_FONTDECL_HPP

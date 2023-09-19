@@ -19,16 +19,17 @@
 
 constinit inline auto g_Window = pul::Window();
 
-constinit inline auto g_Quad = pul::Quad();
-constinit inline auto g_Quad2 = pul::Quad();
-
 constinit inline auto g_Font = pul::Font();
-
-constinit inline auto g_Quads = eqx::UniquePointer<std::vector<pul::Quad>>();
-constinit inline auto g_Quads2 = eqx::UniquePointer<std::vector<pul::Quad>>();
-constinit inline auto g_Quads3 = eqx::UniquePointer<std::vector<pul::Quad>>();
-
 constinit inline auto g_Texture = pul::Texture();
+
+constinit inline auto g_MouseQuads = pul::batch::Quad();
+
+constinit inline auto g_Batch = pul::batch::Quad();
+constinit inline auto g_Batch2 = pul::batch::Quad();
+constinit inline auto g_Batch3 = pul::batch::Quad();
+constinit inline auto g_Batch4 = pul::batch::Quad();
+
+constinit inline auto g_View = glm::vec3(0.0f, 0.0f, 0.0f);
 
 void update() noexcept
 {
@@ -38,11 +39,36 @@ void update() noexcept
         g_Window.close();
     }
 
-    g_Quad.setDrawBox(eqx::Rectangle<float>(
+    if (pul::Keyboard::getKey(pul::Keyboard::Key::A) ==
+        pul::Keyboard::Button::Down)
+    {
+        g_View.x -= 400.0f * g_Window.getDeltaTime();
+    }
+    else if (pul::Keyboard::getKey(pul::Keyboard::Key::D) ==
+        pul::Keyboard::Button::Down)
+    {
+        g_View.x += 400.0f * g_Window.getDeltaTime();
+    }
+
+    if (pul::Keyboard::getKey(pul::Keyboard::Key::W) ==
+        pul::Keyboard::Button::Down)
+    {
+        g_View.y += 400.0f * g_Window.getDeltaTime();
+    }
+    else if (pul::Keyboard::getKey(pul::Keyboard::Key::S) ==
+        pul::Keyboard::Button::Down)
+    {
+        g_View.y -= 400.0f * g_Window.getDeltaTime();
+    }
+
+    auto view = glm::translate(glm::mat4(1.0f), g_View);
+    pul::shader::getQuad().setMat4("u_View", view);
+
+    g_MouseQuads.setRect(0, eqx::Rectangle<float>(
         static_cast<float>(pul::Mouse::getPosition().x - 100.0f),
         static_cast<float>(pul::Mouse::getPosition().y),
         100.0f, 100.0f));
-    g_Quad2.setDrawBox(eqx::Rectangle<float>(
+    g_MouseQuads.setRect(1, eqx::Rectangle<float>(
         static_cast<float>(pul::Mouse::getPosition().x),
         static_cast<float>(pul::Mouse::getPosition().y),
         100.0f, 100.0f));
@@ -50,10 +76,12 @@ void update() noexcept
 
 void render() noexcept
 {
-    pul::Renderer::draw(g_Quad);
-    pul::Renderer::draw(g_Quad2);
+    pul::Renderer::drawText(g_Batch2);
+    pul::Renderer::drawText(g_Batch3);
+    pul::Renderer::drawText(g_Batch4);
 
-    pul::Renderer::drawText(*g_Quads.get());
+    pul::Renderer::draw(g_MouseQuads);
+    pul::Renderer::draw(g_Batch);
 }
 
 int main()
@@ -63,34 +91,31 @@ int main()
     g_Window.init(1200, 800, "Pulsar Window");
     g_Window.setUpdateFunc(update);
     g_Window.setRenderFunc(render);
-    pul::Renderer::init(1200.0f, 800.0f);
+    pul::Renderer::init();
 
-    g_Quad.setColor(glm::vec4(0.8f, 0.0f, 0.2f, 1.0f));
-    g_Quad.setMixture(0.5f);
     g_Texture.init("Resources/Textures/AwesomeFace.png");
-    g_Quad.setTexture(&g_Texture);
 
-    g_Quad2.setColor(glm::vec4(0.8f, 0.0f, 0.2f, 1.0f));
-    g_Quad2.setMixture(0.5f);
-    g_Quad2.setTexture(&g_Texture);
+    g_MouseQuads.setTexture(0, g_Texture);
+    g_MouseQuads.setTexture(1, g_Texture);
 
     //FT_Done_FreeType(ft);
 
     g_Font.init("Resources/Fonts/Poppins/Poppins-Regular.ttf");
 
-    g_Quads.init();
-    std::ranges::copy(
-        g_Font.getText("abcdefghijklmnopqrstuvwxyz'/\\;:,.!?",
-            eqx::Point<float>(100.0f, 100.0f)),
-        std::back_inserter(*g_Quads.get()));
-    std::ranges::copy(
-        g_Font.getText("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-            eqx::Point<float>(100.0f, 150.0f)),
-        std::back_inserter(*g_Quads.get()));
-    std::ranges::copy(
-        g_Font.getText("Like Wow Ok!",
-            eqx::Point<float>(100.0f, 200.0f)),
-        std::back_inserter(*g_Quads.get()));
+    //g_Batch2 = g_Font.getText("abcdefghijklmnopqrstuvwxyz'/\\;:,.!?",
+    g_Batch2 = g_Font.getText("abcdefghijklmnopqrstuvwxyz",
+        eqx::Point<float>(100.0f, 100.0f));
+    //g_Batch3 = g_Font.getText("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+    g_Batch3 = g_Font.getText("ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        eqx::Point<float>(100.0f, 150.0f));
+    g_Batch4 = g_Font.getText("Like Wow Ok!",
+        eqx::Point<float>(100.0f, 200.0f));
+
+    g_Batch.setRect(0, eqx::Rectangle<float>(500.0f, 500.0f, 100.0f, 100.0f));
+    g_Batch.setTexture(0, g_Texture);
+
+    pul::batch::Quad::setUniforms(1200.0f, 800.0f);
+    pul::Font::setUniforms(1200.0f, 800.0f);
 
     g_Window.show();
 

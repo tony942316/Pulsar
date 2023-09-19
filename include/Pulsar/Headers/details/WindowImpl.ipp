@@ -160,7 +160,6 @@ namespace pul
         }
 
         free();
-        glfwTerminate();
     }
 
     inline void Window::close() noexcept

@@ -17,7 +17,7 @@
 
 #include "Pulsar/Pulsar.hpp"
 
-constinit inline auto g_Window = pul::Window();
+#include "Headers/Tester.hpp"
 
 constinit inline auto g_Font = pul::Font();
 constinit inline auto g_Texture = pul::Texture();
@@ -31,6 +31,90 @@ constinit inline auto g_Batch4 = pul::batch::Quad();
 
 constinit inline auto g_View = glm::vec3(0.0f, 0.0f, 0.0f);
 
+constinit inline auto g_VA = pul::VertexArray();
+constinit inline auto g_Shader = pul::Shader();
+
+void getThings() noexcept
+{
+    auto vertices = std::vector<float>();
+    auto indices = std::vector<unsigned int>();
+
+    auto file = std::ifstream();
+    file.open("Resources/Meshes/sword.obj", std::ios::in);
+
+    auto line = std::string();
+    while (file.eof() == false)
+    {
+        std::getline(file, line, '\n');
+
+        std::cout << line << std::endl;
+
+        if (line.size() == 0)
+            continue;
+
+        if (line.at(0) == 'v' && line.at(1) == ' ')
+        {
+            auto v = line |
+                std::views::split(' ') |
+                std::views::drop(1);
+            for (const auto word : v)
+            {
+                auto temp = std::string();
+                std::ranges::copy(word, std::back_inserter(temp));
+                vertices.emplace_back(std::atof(temp.c_str()));
+            }
+
+            vertices.emplace_back(eqx::Random::randomNumber(0.8f, 1.0f));
+            vertices.emplace_back(eqx::Random::randomNumber(0.8f, 1.0f));
+            vertices.emplace_back(eqx::Random::randomNumber(0.8f, 1.0f));
+        }
+        else if (line.at(0) == 'f')
+        {
+
+            auto v = line |
+                std::views::split(' ') |
+                std::views::drop(1);
+            auto corners = std::vector<float>();
+
+            for (const auto data : v)
+            {
+                auto index = data |
+                    std::views::split('/') |
+                    std::views::take(1);
+                auto temp = std::string();
+                for (const auto what : index)
+                {
+                    std::ranges::copy(what, std::back_inserter(temp));
+                }
+                corners.emplace_back((unsigned int)std::atoi(temp.c_str()));
+            }
+            if (corners.size() == 4)
+            {
+                indices.emplace_back(corners.at(0));
+                indices.emplace_back(corners.at(1));
+                indices.emplace_back(corners.at(2));
+
+                indices.emplace_back(corners.at(0));
+                indices.emplace_back(corners.at(2));
+                indices.emplace_back(corners.at(3));
+            }
+            else if (corners.size() == 3)
+            {
+                indices.emplace_back(corners.at(0));
+                indices.emplace_back(corners.at(1));
+                indices.emplace_back(corners.at(2));
+            }
+        }
+    }
+
+    //eqx::println(eqx::toString(vertices));
+    //eqx::println(eqx::toString(indices));
+
+    g_VA.addVertices(vertices);
+    g_VA.addIndices(indices);
+}
+
+/*
 void update() noexcept
 {
     if (pul::Keyboard::getKey(pul::Keyboard::Key::Escape) ==
@@ -72,6 +156,20 @@ void update() noexcept
         static_cast<float>(pul::Mouse::getPosition().x),
         static_cast<float>(pul::Mouse::getPosition().y),
         100.0f, 100.0f));
+
+    static auto rotX = 10.0f;
+    static auto rotY = 10.0f;
+    auto model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(
+        (float)pul::Mouse::getPosition().x,
+        800.0f - (float)pul::Mouse::getPosition().y,
+        -300.0f));
+    model = glm::rotate(model, glm::radians(rotX), glm::vec3(1.0f, 0.0f, 0.0f));
+    rotX += 0.1f;
+    model = glm::rotate(model, glm::radians(rotY), glm::vec3(0.0f, 1.0f, 0.0f));
+    rotY += 0.2f;
+    model = glm::scale(model, glm::vec3(300.0f, 300.0f, 300.0f));
+    g_Shader.setMat4("u_Model", model);
 }
 
 void render() noexcept
@@ -80,10 +178,24 @@ void render() noexcept
     pul::Renderer::drawText(g_Batch3);
     pul::Renderer::drawText(g_Batch4);
 
-    pul::Renderer::draw(g_MouseQuads);
+    //pul::Renderer::draw(g_MouseQuads);
     pul::Renderer::draw(g_Batch);
+
+    pul::Renderer::draw(g_Shader, g_VA);
+}
+*/
+
+int main()
+{
+    eqx::println("Start\n");
+
+    Tester::run();
+
+    eqx::println("\nEnd");
+    return 0;
 }
 
+/*
 int main()
 {
     std::cout << "Start" << std::endl;
@@ -117,8 +229,69 @@ int main()
     pul::batch::Quad::setUniforms(1200.0f, 800.0f);
     pul::Font::setUniforms(1200.0f, 800.0f);
 
+    auto vertices = std::vector<float>({
+        -0.5f,  0.5f,  0.5f,    1.0f, 0.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,    0.0f, 1.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,    0.0f, 0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,    1.0f, 1.0f, 1.0f,
+
+        -0.5f,  0.5f, -0.5f,    0.0f, 1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,    0.0f, 0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,    1.0f, 1.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,    1.0f, 0.0f, 0.0f });
+
+    auto indices = std::vector<unsigned int>({
+        0U, 1U, 2U,
+        0U, 2U, 3U,
+
+        4U, 5U, 6U,
+        4U, 6U, 7U,
+
+        1U, 5U, 6U,
+        1U, 6U, 2U,
+
+        4U, 0U, 3U,
+        4U, 3U, 7U,
+
+        0U, 4U, 5U,
+        0U, 5U, 1U,
+
+        6U, 7U, 3U,
+        6U, 3U, 2U });
+
+    auto attribs = std::vector<int>({
+        3, 3 });
+
+    g_VA.init();
+    //g_VA.addVertices(vertices);
+    //g_VA.addIndices(indices);
+    g_VA.setAttribs(attribs);
+
+    auto model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(100.0f, 100.0f, -50.0f));
+    model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+    model = glm::scale(model, glm::vec3(25.0f, 25.0f, 25.0f));
+    auto view = glm::mat4(1.0f);
+    //view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+    auto proj = glm::mat4(1.0f);
+    //proj = glm::perspective(glm::radians(90.0f), 1200.0f / 800.0f, 0.1f, 1000.0f);
+    proj = glm::ortho(0.0f, 1200.0f, 0.0f, 800.0f, 0.1f, 1000.0f);
+    //auto color = glm::vec4(0.8f, 0.0f, 0.2f, 1.0f);
+    g_Shader.init("Resources/Shaders/MVPVertex.glsl", "Resources/Shaders/MVPFragment.glsl");
+    g_Shader.setMat4("u_Model", model);
+    g_Shader.setMat4("u_View", view);
+    g_Shader.setMat4("u_Projection", proj);
+    //g_Shader.setVec4("u_Color", color);
+
+    //g_Shader.setMat4("u_Model", glm::mat4(1.0f));
+    //g_Shader.setMat4("u_View", glm::mat4(1.0f));
+    //g_Shader.setMat4("u_Projection", glm::mat4(1.0f));
+
+    getThings();
+
     g_Window.show();
 
     std::cout << "End" << std::endl;
     return 0;
 }
+*/

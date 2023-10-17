@@ -1,10 +1,12 @@
-#version 330 core
+#version 450 core
 
-out vec4 o_Color;
+in vec3 p_Color;
 
 uniform vec4 u_Color;
 
+out vec4 o_Color;
+
 void main()
 {
-    o_Color = u_Color;
+    o_Color = vec4(p_Color, 1.0f);
 }

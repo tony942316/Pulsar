@@ -1,6 +1,3 @@
 out/
 .cache/
 compile_commands.json
-build.sh
-rebuild.sh
-run.sh

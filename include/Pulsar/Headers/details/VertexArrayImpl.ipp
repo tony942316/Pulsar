@@ -26,7 +26,7 @@ namespace pul
         :
         m_VBSize(0_size),
         m_EBSize(0_size),
-        m_Capacity(9'000_size),
+        m_Capacity(500'000_size),
         m_Attribs(),
         m_VAO(),
         m_VBO(),
@@ -69,7 +69,8 @@ namespace pul
     inline void VertexArray::addVertices(const T& vertices) noexcept
     {
         eqx::runtimeAssert(std::ranges::size(vertices) + m_VBSize < m_Capacity,
-            "Too Many Vertices In Vertex Array!"sv);
+            "Too Many Vertices In Vertex Array! "s +
+            "Count: "s + eqx::toString(std::ranges::size(vertices)));
 
         glBindBuffer(GL_ARRAY_BUFFER, m_VBO.get());
         glBufferSubData(GL_ARRAY_BUFFER, m_VBSize,

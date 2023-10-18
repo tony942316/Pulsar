@@ -15,14 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "Headers/Tester.hpp"
+#ifndef PROVINGGROUNDS_BLENDERTEST_HPP
+#define PROVINGGROUNDS_BLENDERTEST_HPP
 
-int main()
-{
-    eqx::println("Start\n");
+// Declarations in "details/BlenderTestDecl.hpp"
+#include "details/BlenderTestImpl.ipp"
 
-    Tester::run();
-
-    eqx::println("\nEnd");
-    return 0;
-}
+#endif // PROVINGGROUNDS_BLENDERTEST_HPP

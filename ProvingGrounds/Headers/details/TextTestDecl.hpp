@@ -15,44 +15,29 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PROVINGGROUNDS_DETAILS_TESTERDECL_HPP
-#define PROVINGGROUNDS_DETAILS_TESTERDECL_HPP
+#ifndef PROVINGGROUNDS_DETAILS_TEXTTESTDECL_HPP
+#define PROVINGGROUNDS_DETAILS_TEXTTESTDECL_HPP
 
 #include "Dependencies.hpp"
 
-#include "../Ui.hpp"
-#include "../QuadTest.hpp"
-#include "../TextTest.hpp"
-#include "../CubeTest.hpp"
-#include "../BlenderTest.hpp"
-
-class Tester
+class TextTest
 {
 public:
-    enum class State
-    {
-        None,
-        Quad,
-        Text,
-        Cube,
-        Blender
-    };
+    TextTest() = delete;
+    TextTest(const TextTest&) = delete;
+    TextTest(TextTest&&) = delete;
+    TextTest& operator= (const TextTest&) = delete;
+    TextTest& operator= (TextTest&&) = delete;
+    ~TextTest() = delete;
 
-    Tester() = delete;
-    Tester(const Tester&) = delete;
-    Tester(Tester&&) = delete;
-    Tester& operator= (const Tester&) = delete;
-    Tester& operator= (Tester&&) = delete;
-    ~Tester() = delete;
-
-    static inline void run() noexcept;
     static inline void update() noexcept;
     static inline void render() noexcept;
 
 private:
-    constinit static inline auto s_Window = pul::Window();
-
-    constinit static inline auto s_State = State::None;
+    constinit static inline auto s_Font = pul::Font();
+    constinit static inline auto s_LowerCase = pul::batch::Quad();
+    constinit static inline auto s_UpperCase = pul::batch::Quad();
+    constinit static inline auto s_Phrase = pul::batch::Quad();
 };
 
-#endif // PROVINGGROUNDS_DETAILS_TESTERDECL_HPP
+#endif // PROVINGGROUNDS_DETAILS_TEXTTESTDECL_HPP

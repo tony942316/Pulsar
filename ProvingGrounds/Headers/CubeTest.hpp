@@ -15,14 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "Headers/Tester.hpp"
+#ifndef PROVINGGROUNDS_CUBETEST_HPP
+#define PROVINGGROUNDS_CUBETEST_HPP
 
-int main()
-{
-    eqx::println("Start\n");
+// Declarations in "details/CubeTestDecl.hpp"
+#include "details/CubeTestImpl.ipp"
 
-    Tester::run();
-
-    eqx::println("\nEnd");
-    return 0;
-}
+#endif // PROVINGGROUNDS_CUBETEST_HPP

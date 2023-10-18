@@ -27,6 +27,7 @@ inline void Tester::run() noexcept
     s_Window.setRenderFunc(render);
     pul::Renderer::init();
     pul::batch::Quad::setUniforms(1200.0f, 800.0f);
+    pul::Font::setUniforms(1200.0f, 800.0f);
 
     s_Window.show();
 }
@@ -42,7 +43,25 @@ inline void Tester::update() noexcept
     if (pul::Keyboard::getKey(pul::Keyboard::Key::D) ==
         pul::Keyboard::Button::Down)
     {
-        s_State = State::QuadRender;
+        s_State = State::Quad;
+    }
+
+    if (pul::Keyboard::getKey(pul::Keyboard::Key::W) ==
+        pul::Keyboard::Button::Down)
+    {
+        s_State = State::Text;
+    }
+
+    if (pul::Keyboard::getKey(pul::Keyboard::Key::R) ==
+        pul::Keyboard::Button::Down)
+    {
+        s_State = State::Cube;
+    }
+
+    if (pul::Keyboard::getKey(pul::Keyboard::Key::S) ==
+        pul::Keyboard::Button::Down)
+    {
+        s_State = State::Blender;
     }
 
     if (pul::Keyboard::getKey(pul::Keyboard::Key::A) ==
@@ -55,8 +74,17 @@ inline void Tester::update() noexcept
     {
     case State::None:
         break;
-    case State::QuadRender:
+    case State::Quad:
         QuadTest::update();
+        break;
+    case State::Text:
+        TextTest::update();
+        break;
+    case State::Cube:
+        CubeTest::update(s_Window.getDeltaTime());
+        break;
+    case State::Blender:
+        BlenderTest::update(s_Window.getDeltaTime());
         break;
     }
 }
@@ -67,8 +95,17 @@ inline void Tester::render() noexcept
     {
     case State::None:
         break;
-    case State::QuadRender:
+    case State::Quad:
         QuadTest::render();
+        break;
+    case State::Text:
+        TextTest::render();
+        break;
+    case State::Cube:
+        CubeTest::render();
+        break;
+    case State::Blender:
+        BlenderTest::render();
         break;
     }
 }

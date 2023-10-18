@@ -15,44 +15,31 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PROVINGGROUNDS_DETAILS_TESTERDECL_HPP
-#define PROVINGGROUNDS_DETAILS_TESTERDECL_HPP
+#ifndef PROVINGGROUNDS_DETAILS_BLENDERTESTDECL_HPP
+#define PROVINGGROUNDS_DETAILS_BLENDERTESTDECL_HPP
 
 #include "Dependencies.hpp"
 
-#include "../Ui.hpp"
-#include "../QuadTest.hpp"
-#include "../TextTest.hpp"
-#include "../CubeTest.hpp"
-#include "../BlenderTest.hpp"
-
-class Tester
+class BlenderTest
 {
 public:
-    enum class State
-    {
-        None,
-        Quad,
-        Text,
-        Cube,
-        Blender
-    };
+    BlenderTest() = delete;
+    BlenderTest(const BlenderTest&) = delete;
+    BlenderTest(BlenderTest&&) = delete;
+    BlenderTest& operator= (const BlenderTest&) = delete;
+    BlenderTest& operator= (BlenderTest&&) = delete;
+    ~BlenderTest() = delete;
 
-    Tester() = delete;
-    Tester(const Tester&) = delete;
-    Tester(Tester&&) = delete;
-    Tester& operator= (const Tester&) = delete;
-    Tester& operator= (Tester&&) = delete;
-    ~Tester() = delete;
-
-    static inline void run() noexcept;
-    static inline void update() noexcept;
+    static inline void update(float dt) noexcept;
     static inline void render() noexcept;
 
 private:
-    constinit static inline auto s_Window = pul::Window();
+    static inline bool loadFile() noexcept;
 
-    constinit static inline auto s_State = State::None;
+    constinit static inline auto s_Model = glm::mat4(1.0f);
+
+    constinit static inline auto s_Shader = pul::Shader();
+    constinit static inline auto s_VA = pul::VertexArray();
 };
 
-#endif // PROVINGGROUNDS_DETAILS_TESTERDECL_HPP
+#endif // PROVINGGROUNDS_DETAILS_BLENDERTESTDECL_HPP

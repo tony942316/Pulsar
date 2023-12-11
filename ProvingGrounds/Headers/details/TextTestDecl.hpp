@@ -35,9 +35,9 @@ public:
 
 private:
     constinit static inline auto s_Font = pul::Font();
-    constinit static inline auto s_LowerCase = pul::batch::Quad();
-    constinit static inline auto s_UpperCase = pul::batch::Quad();
-    constinit static inline auto s_Phrase = pul::batch::Quad();
+    constinit static inline auto s_LowerCase = pul::batch::QuadT();
+    constinit static inline auto s_UpperCase = pul::batch::QuadT();
+    constinit static inline auto s_Phrase = pul::batch::QuadT();
 };
 
 #endif // PROVINGGROUNDS_DETAILS_TEXTTESTDECL_HPP

@@ -22,7 +22,7 @@
 
 #include "../Texture.hpp"
 #include "../Shader.hpp"
-#include "../Quad.hpp"
+#include "../QuadT.hpp"
 
 namespace pul
 {
@@ -34,7 +34,7 @@ namespace pul
 
         inline void init(std::string_view filePath) noexcept;
 
-        [[nodiscard]] inline batch::Quad getText(
+        [[nodiscard]] inline batch::QuadT getText(
             std::string_view text,
             const eqx::Point<float>& loc = eqx::Point<float>()) noexcept;
 

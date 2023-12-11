@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_QUAD_HPP
-#define PULSAR_QUAD_HPP
+#ifndef PULSAR_BATCH_QUADT_HPP
+#define PULSAR_BATCH_QUADT_HPP
 
-// Declarations in "details/QuadDecl.hpp"
-#include "details/QuadImpl.ipp"
+// Declarations in "details/QuadTDecl.hpp"
+#include "details/QuadTImpl.ipp"
 
-#endif // PULSAR_QUAD_HPP
+#endif // PULSAR_BATCH_QUADT_HPP

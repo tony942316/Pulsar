@@ -15,43 +15,57 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_DETAILS_QUADDECL_HPP
-#define PULSAR_DETAILS_QUADDECL_HPP
+#ifndef PULSAR_BATCH_DETAILS_QUADTDECL_HPP
+#define PULSAR_BATCH_DETAILS_QUADTDECL_HPP
 
-#include "Dependencies.hpp"
+#include "../../details/Dependencies.hpp"
 
-#include "../Texture.hpp"
-#include "../Shader.hpp"
+#include "../../Texture.hpp"
+#include "../../Shader.hpp"
 
-namespace pul::shader
+namespace pul::batch::shader
 {
-    [[nodiscard]] inline const Shader& getQuad() noexcept;
-    [[nodiscard]] inline Shader makeQuad() noexcept;
+    [[nodiscard]] inline const Shader& getQuadT() noexcept;
+    [[nodiscard]] inline Shader makeQuadT() noexcept;
 }
 
 namespace pul::batch
 {
-    class Quad
+    class QuadT
     {
     public:
-        explicit constexpr Quad() noexcept;
+        explicit constexpr QuadT() noexcept;
+
+        constexpr void setLoc(std::size_t index,
+            const eqx::Point<float>& lox) noexcept;
 
         constexpr void setRect(std::size_t index,
-            eqx::Rectangle<float> rect) noexcept;
+            const eqx::Rectangle<float>& rect) noexcept;
 
         constexpr void setTexture(std::size_t index,
             const Texture& texture) noexcept;
 
         inline void enableTextures() const noexcept;
 
-        constexpr const std::array<float, 640_size>& getData() const noexcept;
+        [[nodiscard]] constexpr const std::array<float, 640_size>&
+            getData() const noexcept;
+
+        [[nodiscard]] constexpr eqx::Point<float>
+            getLoc(std::size_t index) const noexcept;
+
+        [[nodiscard]] constexpr eqx::Rectangle<float>
+            getRect(std::size_t index) const noexcept;
+
+        [[nodiscard]] constexpr const Texture&
+            getTexture(std::size_t index) const noexcept;
 
         static inline void setUniforms(float w, float h) noexcept;
 
-        static consteval const std::array<unsigned int, 192_size>&
+        [[nodiscard]] static consteval const std::array<unsigned int, 192_size>&
             getIndices() noexcept;
 
-        static consteval const std::array<int, 3_size>& getAttribs() noexcept;
+        [[nodiscard]] static consteval const std::array<int, 3_size>&
+            getAttribs() noexcept;
 
     private:
         std::array<float, 640_size> m_Data;
@@ -109,4 +123,4 @@ namespace pul::batch
     };
 }
 
-#endif // PULSAR_DETAILS_QUADDECL_HPP
+#endif // PULSAR_BATCH_DETAILS_QUADTDECL_HPP

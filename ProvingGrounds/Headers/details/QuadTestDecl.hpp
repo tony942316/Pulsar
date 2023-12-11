@@ -34,7 +34,7 @@ public:
     static inline void render() noexcept;
 
 private:
-    constinit static inline auto s_Batch = pul::batch::Quad();
+    static inline auto s_Face = pul::QuadT();
 };
 
 #endif // PROVINGGROUNDS_DETAILS_QUADTESTDECL_HPP

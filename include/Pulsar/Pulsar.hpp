@@ -24,7 +24,7 @@
 #include "Headers/Keyboard.hpp"
 #include "Headers/Window.hpp"
 #include "Headers/Texture.hpp"
-#include "Headers/Quad.hpp"
+#include "Headers/QuadT.hpp"
 #include "Headers/Font.hpp"
 #include "Headers/Renderer.hpp"
 

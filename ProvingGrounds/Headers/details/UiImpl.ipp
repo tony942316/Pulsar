@@ -22,10 +22,20 @@
 
 inline void Ui::update() noexcept
 {
+    [[maybe_unused]] static auto init = std::invoke(
+        []()
+        {
+            s_Buttons.setUniforms(1200.0f, 800.0f);
+            s_Buttons.setRect(0ULL,
+                eqx::Rectangle<float>(0.0f, 0.0f, 100.0f, 75.0f));
+
+            return true;
+        });
 }
 
 inline void Ui::render() noexcept
 {
+    pul::Renderer::draw(s_Buttons);
 }
 
 #endif // PROVINGGROUNDS_DETAILS_UIIMPL_IPP

@@ -26,7 +26,7 @@ inline void Tester::run() noexcept
     s_Window.setUpdateFunc(update);
     s_Window.setRenderFunc(render);
     pul::Renderer::init();
-    pul::batch::Quad::setUniforms(1200.0f, 800.0f);
+    pul::batch::QuadT::setUniforms(1200.0f, 800.0f);
     pul::Font::setUniforms(1200.0f, 800.0f);
 
     s_Window.show();

@@ -26,7 +26,7 @@ set_target_properties(ProvingGrounds PROPERTIES
 if (MSVC)
     add_custom_command(TARGET ProvingGrounds PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
-            ${CMAKE_CURRENT_SOURCE_DIR}/Release/Resources
+            ${CMAKE_CURRENT_SOURCE_DIR}/Resources
             ${CMAKE_CURRENT_BINARY_DIR}/Release/Resources
         COMMENT "Copying Resources!")
 else ()

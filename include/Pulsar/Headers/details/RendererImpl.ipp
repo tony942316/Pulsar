@@ -36,23 +36,23 @@ namespace pul
         shader.disable();
     }
 
-    inline void Renderer::draw(const batch::Quad& quads) noexcept
+    inline void Renderer::draw(const batch::QuadT& quads) noexcept
     {
         quads.enableTextures();
         s_VA.clear();
         s_VA.addVertices(quads.getData());
-        s_VA.addIndices(batch::Quad::getIndices());
-        s_VA.setAttribs(batch::Quad::getAttribs());
-        draw(shader::getQuad(), s_VA);
+        s_VA.addIndices(batch::QuadT::getIndices());
+        s_VA.setAttribs(batch::QuadT::getAttribs());
+        draw(batch::shader::getQuadT(), s_VA);
     }
 
-    inline void Renderer::drawText(const batch::Quad& quads) noexcept
+    inline void Renderer::drawText(const batch::QuadT& quads) noexcept
     {
         quads.enableTextures();
         s_VA.clear();
         s_VA.addVertices(quads.getData());
-        s_VA.addIndices(batch::Quad::getIndices());
-        s_VA.setAttribs(batch::Quad::getAttribs());
+        s_VA.addIndices(batch::QuadT::getIndices());
+        s_VA.setAttribs(batch::QuadT::getAttribs());
 
         draw(shader::getText(), s_VA);
     }

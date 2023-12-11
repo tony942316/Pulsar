@@ -15,26 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PROVINGGROUNDS_DETAILS_UIDECL_HPP
-#define PROVINGGROUNDS_DETAILS_UIDECL_HPP
+#ifndef PULSAR_QUADT_HPP
+#define PULSAR_QUADT_HPP
 
-#include "Dependencies.hpp"
+// Declarations in "details/QuadTDecl.hpp"
+#include "details/QuadTImpl.ipp"
 
-class Ui
-{
-public:
-    Ui() = delete;
-    Ui(const Ui&) = delete;
-    Ui(Ui&&) = delete;
-    Ui& operator= (const Ui&) = delete;
-    Ui& operator= (Ui&&) = delete;
-    ~Ui() = delete;
-
-    static inline void update() noexcept;
-    static inline void render() noexcept;
-
-private:
-    constinit static inline auto s_Buttons = pul::batch::QuadT();
-};
-
-#endif // PROVINGGROUNDS_DETAILS_UIDECL_HPP
+#endif // PULSAR_QUADT_HPP

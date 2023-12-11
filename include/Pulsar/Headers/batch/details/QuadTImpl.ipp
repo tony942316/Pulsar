@@ -15,20 +15,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_DETAILS_QUADIMPL_IPP
-#define PULSAR_DETAILS_QUADIMPL_IPP
+#ifndef PULSAR_BATCH_DETAILS_QUADTIMPL_IPP
+#define PULSAR_BATCH_DETAILS_QUADTIMPL_IPP
 
-#include "QuadDecl.hpp"
+#include "QuadTDecl.hpp"
 
-namespace pul::shader
+namespace pul::batch::shader
 {
-    [[nodiscard]] inline const Shader& getQuad() noexcept
+    [[nodiscard]] inline const Shader& getQuadT() noexcept
     {
-        static auto shader = makeQuad();
+        static auto shader = makeQuadT();
         return shader;
     }
 
-    [[nodiscard]] inline Shader makeQuad() noexcept
+    [[nodiscard]] inline Shader makeQuadT() noexcept
     {
         auto vc = pul::ShaderGenerator::ShaderConfig();
         auto fc = pul::ShaderGenerator::ShaderConfig();
@@ -69,7 +69,7 @@ namespace pul::shader
 
 namespace pul::batch
 {
-    constexpr Quad::Quad() noexcept
+    constexpr QuadT::QuadT() noexcept
         :
         m_Data(),
         m_Textures()
@@ -106,10 +106,20 @@ namespace pul::batch
         }
     }
 
-    constexpr void Quad::setRect(std::size_t index,
-        eqx::Rectangle<float> rect) noexcept
+    constexpr void QuadT::setLoc(std::size_t index,
+        const eqx::Point<float>& loc) noexcept
     {
-        eqx::runtimeAssert(index < 32, "Batch Overflow"sv);
+        eqx::runtimeAssert(index < 32, "Batch Overflow!"sv);
+
+        auto rect = getRect(index);
+        rect.setLocation(loc);
+        setRect(index, rect);
+    }
+
+    constexpr void QuadT::setRect(std::size_t index,
+        const eqx::Rectangle<float>& rect) noexcept
+    {
+        eqx::runtimeAssert(index < 32, "Batch Overflow!"sv);
 
         auto ix = c_IndexX + (index * c_QStride);
         auto iy = c_IndexY + (index * c_QStride);
@@ -132,13 +142,13 @@ namespace pul::batch
         m_Data.at(iy + off) = 800.0f - rect.getBottomLeftPoint().y;
     }
 
-    constexpr void Quad::setTexture(std::size_t index,
+    constexpr void QuadT::setTexture(std::size_t index,
         const Texture& texture) noexcept
     {
         m_Textures.at(index) = &texture;
     }
 
-    inline void Quad::enableTextures() const noexcept
+    inline void QuadT::enableTextures() const noexcept
     {
         for (auto index = 0_size; index < 32_size; index++)
         {
@@ -150,33 +160,69 @@ namespace pul::batch
         }
     }
 
-    constexpr const std::array<float, 640_size>& Quad::getData() const noexcept
+    [[nodiscard]] constexpr const std::array<float, 640_size>&
+        QuadT::getData() const noexcept
     {
         return m_Data;
     }
 
-    inline void Quad::setUniforms(float w, float h) noexcept
+    [[nodiscard]] constexpr eqx::Point<float>
+        QuadT::getLoc(std::size_t index) const noexcept
+    {
+        auto ix = c_IndexX + (index * c_QStride);
+        auto iy = c_IndexY + (index * c_QStride);
+
+        return eqx::Point<float>(m_Data.at(ix), m_Data.at(iy));
+    }
+
+    [[nodiscard]] constexpr eqx::Rectangle<float>
+        QuadT::getRect(std::size_t index) const noexcept
+    {
+        eqx::runtimeAssert(index < 32, "Batch Overflow!"sv);
+
+        auto ix = c_IndexX + (index * c_QStride);
+        auto iy = c_IndexY + (index * c_QStride);
+        auto tl = eqx::Point<float>();
+        auto br = eqx::Point<float>();
+        auto off = 0_size;
+
+        off = 0_size;
+        tl = eqx::Point<float>(m_Data.at(ix + off), m_Data.at(iy + off));
+        off += 2 * c_VStride;
+        br = eqx::Point<float>(m_Data.at(ix + off), m_Data.at(iy + off));
+
+        return eqx::Rectangle<float>(tl, br);
+    }
+
+    [[nodiscard]] constexpr const Texture&
+        QuadT::getTexture(std::size_t index) const noexcept
+    {
+        return *m_Textures.at(index);
+    }
+
+    inline void QuadT::setUniforms(float w, float h) noexcept
     {
         auto projection =
             glm::ortho(0.0f, w, 0.0f, h, -1.0f, 1.0f);
-        pul::shader::getQuad().setMat4("u_View", glm::mat4(1.0f));
-        pul::shader::getQuad().setMat4("u_Projection", projection);
+        pul::batch::shader::getQuadT().setMat4("u_View", glm::mat4(1.0f));
+        pul::batch::shader::getQuadT().setMat4("u_Projection", projection);
 
         auto textures = std::array<int, 32>();
         std::ranges::copy(std::views::iota(0, 32), textures.begin());
-        pul::shader::getQuad().setInts("u_Textures", textures);
+        pul::batch::shader::getQuadT().setInts("u_Textures", textures);
     }
 
-    consteval const std::array<unsigned int, 192_size>&
-        Quad::getIndices() noexcept
+    [[nodiscard]] consteval const std::array<unsigned int, 192_size>&
+        QuadT::getIndices() noexcept
     {
         return c_Indices;
     }
 
-    consteval const std::array<int, 3_size>& Quad::getAttribs() noexcept
+    [[nodiscard]] consteval const std::array<int, 3_size>&
+        QuadT::getAttribs() noexcept
     {
         return c_Attribs;
     }
 }
 
-#endif // PULSAR_DETAILS_QUADIMPL_IPP
+#endif // PULSAR_BATCH_DETAILS_QUADTIMPL_IPP

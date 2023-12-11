@@ -68,8 +68,6 @@ inline bool BlenderTest::loadFile() noexcept
                 vertices.emplace_back(std::atof(temp.c_str()));
             }
 
-            eqx::println(vertices | std::views::reverse | std::views::take(3) | std::views::reverse);
-
             auto rng = eqx::Random::rollDice(4U);
 
             switch (rng)
@@ -125,21 +123,15 @@ inline bool BlenderTest::loadFile() noexcept
                 indices.emplace_back(corners.at(1));
                 indices.emplace_back(corners.at(2));
 
-                eqx::println(indices | std::views::reverse | std::views::take(3) | std::views::reverse);
-
                 indices.emplace_back(corners.at(0));
                 indices.emplace_back(corners.at(2));
                 indices.emplace_back(corners.at(3));
-
-                eqx::println(indices | std::views::reverse | std::views::take(3) | std::views::reverse);
             }
             else if (corners.size() == 3)
             {
                 indices.emplace_back(corners.at(0));
                 indices.emplace_back(corners.at(1));
                 indices.emplace_back(corners.at(2));
-
-                eqx::println(indices | std::views::reverse | std::views::take(3) | std::views::reverse);
             }
         }
     }

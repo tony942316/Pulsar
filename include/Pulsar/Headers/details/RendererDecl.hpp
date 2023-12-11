@@ -23,7 +23,7 @@
 #include "../Shader.hpp"
 #include "../VertexArray.hpp"
 #include "../Texture.hpp"
-#include "../Quad.hpp"
+#include "../QuadT.hpp"
 #include "../Font.hpp"
 
 namespace pul
@@ -40,8 +40,8 @@ namespace pul
 
         static inline void draw(const Shader& shader,
             const VertexArray& vertexArray) noexcept;
-        static inline void draw(const batch::Quad& quads) noexcept;
-        static inline void drawText(const batch::Quad& quads) noexcept;
+        static inline void draw(const batch::QuadT& quads) noexcept;
+        static inline void drawText(const batch::QuadT& quads) noexcept;
 
         static inline void init() noexcept;
 

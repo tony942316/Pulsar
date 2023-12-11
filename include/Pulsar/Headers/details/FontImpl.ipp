@@ -66,11 +66,11 @@ namespace pul
             "Freetype Face Delete Error!"sv);
     }
 
-    [[nodiscard]] inline batch::Quad Font::getText(
+    [[nodiscard]] inline batch::QuadT Font::getText(
         std::string_view text, const eqx::Point<float>& loc) noexcept
     {
         eqx::runtimeAssert(std::ranges::size(text) < 32, "Text Too Long"sv);
-        auto result = batch::Quad();
+        auto result = batch::QuadT();
         auto x = loc.x;
 
         auto index = 0_size;

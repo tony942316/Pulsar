@@ -186,8 +186,7 @@ namespace pul
     {
         auto success = 0;
         char infoLog[512];
-        auto shaderProgram = ShaderID();
-        shaderProgram.init(delShader, genShader);
+        auto shaderProgram = ShaderID(delShader, genShader);
         glAttachShader(shaderProgram.get(), vertexShader);
         glAttachShader(shaderProgram.get(), fragmentShader);
         glLinkProgram(shaderProgram.get());

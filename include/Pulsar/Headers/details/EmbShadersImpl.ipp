@@ -26,6 +26,7 @@ namespace pul
     {
         makeTxQuadShader(w, h);
         makeFontShader(w, h);
+        makeCQuadShader(w, h);
     }
 
     [[nodiscard]] inline Shader& EmbShaders::TxQuadShader() noexcept
@@ -36,6 +37,11 @@ namespace pul
     [[nodiscard]] inline Shader& EmbShaders::FontShader() noexcept
     {
         return s_FontShader;
+    }
+
+    [[nodiscard]] inline Shader& EmbShaders::CQuadShader() noexcept
+    {
+        return s_CQuadShader;
     }
 
     inline void EmbShaders::makeTxQuadShader(float w, float h) noexcept
@@ -130,6 +136,41 @@ namespace pul
         auto textures = std::array<int, 32>();
         std::ranges::copy(std::views::iota(0, 32), textures.begin());
         s_FontShader.setInts("u_Textures", textures);
+    }
+
+    inline void EmbShaders::makeCQuadShader(float w, float h) noexcept
+    {
+        auto vc = pul::ShaderGenerator::ShaderConfig();
+        auto fc = pul::ShaderGenerator::ShaderConfig();
+
+        vc.inputs.emplace_back(
+            "layout (location = 0) in vec2 i_Pos;\n"sv);
+        vc.inputs.emplace_back(
+            "layout (location = 1) in vec3 i_Color;\n"sv);
+
+        vc.uniforms.emplace_back("uniform mat4 u_View;\n"sv);
+        vc.uniforms.emplace_back("uniform mat4 u_Projection;\n"sv);
+
+        vc.outputs.emplace_back("out vec3 p_Color;\n"sv);
+
+        vc.code =
+            "p_Color = i_Color;\n"sv
+            "gl_Position = "sv
+                "u_Projection * u_View * vec4(i_Pos, 0.0f, 1.0f);\n"sv;
+
+        fc.inputs.emplace_back("in vec3 p_Color;\n"sv);
+
+        fc.outputs.emplace_back("out vec4 o_FragmentColor;\n"sv);
+
+        fc.code =
+            "o_FragmentColor = vec4(p_Color, 1.0f);\n"sv;
+
+        s_CQuadShader.init(pul::ShaderGenerator(vc, fc));
+
+        auto projection =
+            glm::ortho(0.0f, w, 0.0f, h, -1.0f, 1.0f);
+        s_CQuadShader.setMat4("u_View", glm::mat4(1.0f));
+        s_CQuadShader.setMat4("u_Projection", projection);
     }
 }
 

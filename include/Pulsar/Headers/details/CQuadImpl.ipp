@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Anthony H. Grasso
+ * Copyright (C) 2024 Anthony H. Grasso
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,64 +15,64 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_DETAILS_TXQUADIMPL_IPP
-#define PULSAR_DETAILS_TXQUADIMPL_IPP
+#ifndef PULSAR_DETAILS_CQUADIMPL_IPP
+#define PULSAR_DETAILS_CQUADIMPL_IPP
 
-#include "TxQuadDecl.hpp"
+#include "CQuadDecl.hpp"
 
 namespace pul
 {
-    constexpr TxQuad::TxQuad() noexcept
+    constexpr CQuad::CQuad() noexcept
         :
         m_Rect(),
-        m_Tex(nullptr)
+        m_Color()
     {
     }
 
-    constexpr TxQuad::TxQuad(const eqx::Rectangle<float>& rect,
-        const Texture& tex) noexcept
+    constexpr CQuad::CQuad(const eqx::Rectangle<float>& rect,
+        const color& c) noexcept
         :
         m_Rect(rect),
-        m_Tex(&tex)
+        m_Color(c)
     {
     }
 
-    constexpr void TxQuad::setLoc(const eqx::Point<float>& loc) noexcept
+    constexpr void CQuad::setLoc(const eqx::Point<float>& loc) noexcept
     {
         m_Rect.setLocation(loc);
     }
 
-    constexpr void TxQuad::setRect(const eqx::Rectangle<float>& rect) noexcept
+    constexpr void CQuad::setRect(const eqx::Rectangle<float>& rect) noexcept
     {
         m_Rect = rect;
     }
 
-    constexpr void TxQuad::setTexture(const Texture& tex) noexcept
+    constexpr void CQuad::setColor(const color& c) noexcept
     {
-        m_Tex = &tex;
+        m_Color = c;
     }
 
-    [[nodiscard]] constexpr eqx::Point<float> TxQuad::getLoc() const noexcept
+    [[nodiscard]] constexpr eqx::Point<float> CQuad::getLoc() const noexcept
     {
         return m_Rect.getLocation();
     }
 
     [[nodiscard]] constexpr const eqx::Rectangle<float>&
-        TxQuad::getRect() const noexcept
+        CQuad::getRect() const noexcept
     {
         return m_Rect;
     }
 
-    [[nodiscard]] constexpr const Texture& TxQuad::getTexture() const noexcept
+    [[nodiscard]] constexpr const CQuad::color& CQuad::getColor() const noexcept
     {
-        return *m_Tex;
+        return m_Color;
     }
 
     [[nodiscard]] constexpr Batch<5_size, 4_size>
-        TxQuad::batch(std::span<TxQuad> quads) noexcept
+        CQuad::batch(std::span<CQuad> quads) noexcept
     {
         /*
-            x, y, s, t, tex
+            x, y, r, g, b
             0, 1, 2, 3, 4
             0, ...
             0, ...
@@ -87,50 +87,42 @@ namespace pul
 
             temp[0] = quads[i].getRect().getTopLeftPoint().x;
             temp[1] = 800.0f - quads[i].getRect().getTopLeftPoint().y;
-            temp[2] = 0.0f;
-            temp[3] = 0.0f;
-            temp[4] = static_cast<float>(i);
+            temp[2] = quads[i].m_Color.r;
+            temp[3] = quads[i].m_Color.g;
+            temp[4] = quads[i].m_Color.b;
 
             temp[5] = quads[i].getRect().getTopRightPoint().x;
             temp[6] = 800.0f - quads[i].getRect().getTopRightPoint().y;
-            temp[7] = 1.0f;
-            temp[8] = 0.0f;
-            temp[9] = static_cast<float>(i);
+            temp[7] = quads[i].m_Color.r;
+            temp[8] = quads[i].m_Color.g;
+            temp[9] = quads[i].m_Color.b;
 
             temp[10] = quads[i].getRect().getBottomRightPoint().x;
             temp[11] = 800.0f - quads[i].getRect().getBottomRightPoint().y;
-            temp[12] = 1.0f;
-            temp[13] = 1.0f;
-            temp[14] = static_cast<float>(i);
+            temp[12] = quads[i].m_Color.r;
+            temp[13] = quads[i].m_Color.g;
+            temp[14] = quads[i].m_Color.b;
 
             temp[15] = quads[i].getRect().getBottomLeftPoint().x;
             temp[16] = 800.0f - quads[i].getRect().getBottomLeftPoint().y;
-            temp[17] = 0.0f;
-            temp[18] = 1.0f;
-            temp[19] = static_cast<float>(i);
+            temp[17] = quads[i].m_Color.r;
+            temp[18] = quads[i].m_Color.g;
+            temp[19] = quads[i].m_Color.b;
         }
-
-        auto count = 0U;
-        std::ranges::for_each(quads, [&count](const TxQuad& quad)
-            {
-                Texture::enableTextureSlot(count);
-                quad.getTexture().enable();
-                count++;
-            });
 
         return result;
     }
 
-    [[nodiscard]] constexpr std::span<const int> TxQuad::getAttribs() noexcept
+    [[nodiscard]] constexpr std::span<const int> CQuad::getAttribs() noexcept
     {
         return std::span<const int>(c_Attribs);
     }
 
     [[nodiscard]] constexpr
-        std::span<const unsigned int> TxQuad::getIndices() noexcept
+        std::span<const unsigned int> CQuad::getIndices() noexcept
     {
         return std::span<const unsigned int>(c_Indices);
     }
 }
 
-#endif // PULSAR_DETAILS_TXQUADIMPL_IPP
+#endif // PULSAR_DETAILS_CQUADIMPL_IPP

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Anthony H. Grasso
+ * Copyright (C) 2024 Anthony H. Grasso
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,34 +15,38 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_DETAILS_TXQUADDECL_HPP
-#define PULSAR_DETAILS_TXQUADDECL_HPP
+#ifndef PULSAR_DETAILS_CQUADDECL_HPP
+#define PULSAR_DETAILS_CQUADDECL_HPP
 
 #include "Dependencies.hpp"
 
-#include "../Texture.hpp"
 #include "../Batch.hpp"
 
 namespace pul
 {
-    class TxQuad
+    class CQuad
     {
     public:
-        explicit constexpr TxQuad() noexcept;
-        explicit constexpr TxQuad(const eqx::Rectangle<float>& rect,
-            const Texture& tex) noexcept;
+        struct color
+        {
+            float r, g, b;
+        };
+
+        explicit constexpr CQuad() noexcept;
+        explicit constexpr CQuad(const eqx::Rectangle<float>& rect,
+            const color& c) noexcept;
 
         constexpr void setLoc(const eqx::Point<float>& loc) noexcept;
         constexpr void setRect(const eqx::Rectangle<float>& rect) noexcept;
-        constexpr void setTexture(const Texture& tex) noexcept;
+        constexpr void setColor(const color& c) noexcept;
 
         [[nodiscard]] constexpr eqx::Point<float> getLoc() const noexcept;
         [[nodiscard]] constexpr const eqx::Rectangle<float>&
             getRect() const noexcept;
-        [[nodiscard]] constexpr const Texture& getTexture() const noexcept;
+        [[nodiscard]] constexpr const color& getColor() const noexcept;
 
         [[nodiscard]] static constexpr Batch<5_size, 4_size>
-            batch(std::span<TxQuad> quads) noexcept;
+            batch(std::span<CQuad> quads) noexcept;
         [[nodiscard]] static constexpr
             std::span<const int> getAttribs() noexcept;
         [[nodiscard]] static constexpr
@@ -50,9 +54,9 @@ namespace pul
 
     private:
         eqx::Rectangle<float> m_Rect;
-        const Texture* m_Tex;
+        color m_Color;
 
-        static constexpr auto c_Attribs = std::array<int, 3_size>({ 2, 2, 1 });
+        static constexpr auto c_Attribs = std::array<int, 3_size>({ 2, 3 });
         static constexpr auto c_Indices = std::invoke(
             []() constexpr
             {
@@ -88,4 +92,4 @@ namespace pul
     };
 }
 
-#endif // PULSAR_DETAILS_TXQUADDECL_HPP
+#endif // PULSAR_DETAILS_CQUADDECL_HPP

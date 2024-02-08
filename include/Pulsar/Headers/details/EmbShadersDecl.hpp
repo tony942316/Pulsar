@@ -39,13 +39,16 @@ namespace pul
 
         [[nodiscard]] static inline Shader& TxQuadShader() noexcept;
         [[nodiscard]] static inline Shader& FontShader() noexcept;
+        [[nodiscard]] static inline Shader& CQuadShader() noexcept;
 
     private:
         static inline void makeTxQuadShader(float w, float h) noexcept;
         static inline void makeFontShader(float w, float h) noexcept;
+        static inline void makeCQuadShader(float w, float h) noexcept;
 
         constinit static inline auto s_TxQuadShader = pul::Shader();
         constinit static inline auto s_FontShader = pul::Shader();
+        constinit static inline auto s_CQuadShader = pul::Shader();
     };
 }
 

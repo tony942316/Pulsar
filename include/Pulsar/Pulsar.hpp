@@ -28,6 +28,7 @@
 #include "Headers/Texture.hpp"
 #include "Headers/Batch.hpp"
 #include "Headers/TxQuad.hpp"
+#include "Headers/CQuad.hpp"
 #include "Headers/Font.hpp"
 #include "Headers/Renderer.hpp"
 

@@ -66,6 +66,11 @@ inline void Tester::update() noexcept
         s_State = State::None;
     }
 
+    if (Ui::update())
+    {
+        s_Window.close();
+    }
+
     switch (s_State)
     {
     case State::None:
@@ -110,6 +115,8 @@ inline void Tester::render() noexcept
         BatchTest::render();
         break;
     }
+
+    Ui::render();
 }
 
 #endif // PROVINGGROUNDS_DETAILS_TESTERIMPL_IPP

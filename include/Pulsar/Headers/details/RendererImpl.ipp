@@ -42,9 +42,20 @@ namespace pul
         draw(x);
     }
 
+    inline void Renderer::draw(const CQuad& quad) noexcept
+    {
+        auto x = std::array<CQuad, 1_size>({ quad });
+        draw(x);
+    }
+
     inline void Renderer::draw(std::span<TxQuad> quads) noexcept
     {
         drawQuads(EmbShaders::TxQuadShader(), quads);
+    }
+
+    inline void Renderer::draw(std::span<CQuad> quads) noexcept
+    {
+        drawQuads(EmbShaders::CQuadShader(), quads);
     }
 
     inline void Renderer::drawText(std::span<TxQuad> quads) noexcept
@@ -75,6 +86,34 @@ namespace pul
         s_VA.addVertices(TxQuad::batch(remaining).getData());
         s_VA.addIndices(TxQuad::getIndices());
         s_VA.setAttribs(TxQuad::getAttribs());
+        draw(shader, s_VA);
+
+        glEnable(GL_DEPTH_TEST);
+    }
+
+    inline void Renderer::drawQuads(const Shader& shader,
+        std::span<CQuad> quads) noexcept
+    {
+        glDisable(GL_DEPTH_TEST);
+
+        auto remaining = quads;
+        auto chunk = std::span<CQuad>();
+
+        while (remaining.size() > 32_size)
+        {
+            chunk = remaining.first(32_size);
+            s_VA.clear();
+            s_VA.addVertices(CQuad::batch(chunk).getData());
+            s_VA.addIndices(CQuad::getIndices());
+            s_VA.setAttribs(CQuad::getAttribs());
+            draw(shader, s_VA);
+            remaining = remaining.subspan(32_size);
+        }
+
+        s_VA.clear();
+        s_VA.addVertices(CQuad::batch(remaining).getData());
+        s_VA.addIndices(CQuad::getIndices());
+        s_VA.setAttribs(CQuad::getAttribs());
         draw(shader, s_VA);
 
         glEnable(GL_DEPTH_TEST);

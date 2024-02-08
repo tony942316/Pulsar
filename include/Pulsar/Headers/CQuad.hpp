@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Anthony H. Grasso
+ * Copyright (C) 2024 Anthony H. Grasso
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,26 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PROVINGGROUNDS_DETAILS_UIDECL_HPP
-#define PROVINGGROUNDS_DETAILS_UIDECL_HPP
+#ifndef PULSAR_CQUAD_HPP
+#define PULSAR_CQUAD_HPP
 
-#include "Dependencies.hpp"
+// Declarations in "details/CQuadDecl.hpp"
+#include "details/CQuadImpl.ipp"
 
-class Ui
-{
-public:
-    Ui() = delete;
-    Ui(const Ui&) = delete;
-    Ui(Ui&&) = delete;
-    Ui& operator= (const Ui&) = delete;
-    Ui& operator= (Ui&&) = delete;
-    ~Ui() = delete;
-
-    static inline bool update() noexcept;
-    static inline void render() noexcept;
-
-private:
-    constinit static inline auto s_Button = pul::CQuad();
-};
-
-#endif // PROVINGGROUNDS_DETAILS_UIDECL_HPP
+#endif // PULSAR_CQUAD_HPP

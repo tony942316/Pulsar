@@ -26,6 +26,7 @@
 #include "../Texture.hpp"
 #include "../TxQuad.hpp"
 #include "../Font.hpp"
+#include "../CQuad.hpp"
 
 namespace pul
 {
@@ -43,10 +44,14 @@ namespace pul
             const VertexArray& vertexArray) noexcept;
 
         static inline void draw(const TxQuad& quad) noexcept;
+        static inline void draw(const CQuad& quad) noexcept;
         static inline void draw(std::span<TxQuad> quads) noexcept;
+        static inline void draw(std::span<CQuad> quads) noexcept;
         static inline void drawText(std::span<TxQuad> quads) noexcept;
         static inline void drawQuads(const Shader& shader,
             std::span<TxQuad> quads) noexcept;
+        static inline void drawQuads(const Shader& shader,
+            std::span<CQuad> quads) noexcept;
 
         static inline void boot() noexcept;
 

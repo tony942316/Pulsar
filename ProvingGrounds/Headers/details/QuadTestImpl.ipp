@@ -27,7 +27,12 @@ inline void QuadTest::update() noexcept
         {
             static auto tex =
                 pul::Texture("Resources/Textures/AwesomeFace.png");
+            static auto tex2 =
+                pul::Texture("Resources/Textures/Test.png");
             s_Face.setTexture(tex);
+            s_Face2.setTexture(tex);
+            s_Cat.setTexture(tex2);
+            s_Cat.setRect(eqx::Rectangle<float>(0.0f, 0.0f, 100.0f, 100.0f));
             return true;
         });
 
@@ -36,11 +41,18 @@ inline void QuadTest::update() noexcept
         static_cast<float>(pul::Mouse::getPosition().y),
         100.0f,
         100.0f));
+    s_Face2.setRect(eqx::Rectangle<float>(
+        static_cast<float>(pul::Mouse::getPosition().x - 100.0),
+        static_cast<float>(pul::Mouse::getPosition().y),
+        100.0f,
+        100.0f));
 }
 
 inline void QuadTest::render() noexcept
 {
-    pul::Renderer::draw(s_Face.getBatch());
+    pul::Renderer::draw(s_Face);
+    pul::Renderer::draw(s_Face2);
+    pul::Renderer::draw(s_Cat);
 }
 
 #endif // PROVINGGROUNDS_DETAILS_QUADTESTIMPL_IPP

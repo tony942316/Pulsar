@@ -35,9 +35,11 @@ public:
 
 private:
     constinit static inline auto s_Font = pul::Font();
-    constinit static inline auto s_LowerCase = pul::batch::QuadT();
-    constinit static inline auto s_UpperCase = pul::batch::QuadT();
-    constinit static inline auto s_Phrase = pul::batch::QuadT();
+    constinit static inline auto s_LowerCase = std::span<pul::TxQuad>();
+    constinit static inline auto s_UpperCase = std::span<pul::TxQuad>();
+    constinit static inline auto s_Phrase = std::span<pul::TxQuad>();
+    constinit static inline auto s_Traveler = std::span<pul::TxQuad>();
+    constinit static inline auto s_Traveler2 = std::span<pul::TxQuad>();
 };
 
 #endif // PROVINGGROUNDS_DETAILS_TEXTTESTDECL_HPP

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Anthony H. Grasso
+ * Copyright (C) 2024 Anthony H. Grasso
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_QUADT_HPP
-#define PULSAR_QUADT_HPP
+#ifndef PULSAR_EMBSHADERS_HPP
+#define PULSAR_EMBSHADERS_HPP
 
-// Declarations in "details/QuadTDecl.hpp"
-#include "details/QuadTImpl.ipp"
+// Declarations in "details/EmbShadersDecl.hpp"
+#include "details/EmbShadersImpl.ipp"
 
-#endif // PULSAR_QUADT_HPP
+#endif // PULSAR_EMBSHADERS_HPP

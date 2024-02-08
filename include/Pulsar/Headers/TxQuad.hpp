@@ -15,26 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PROVINGGROUNDS_DETAILS_UIDECL_HPP
-#define PROVINGGROUNDS_DETAILS_UIDECL_HPP
+#ifndef PULSAR_TXQUAD_HPP
+#define PULSAR_TXQUAD_HPP
 
-#include "Dependencies.hpp"
+// Declarations in "details/TxQuadDecl.hpp"
+#include "details/TxQuadImpl.ipp"
 
-class Ui
-{
-public:
-    Ui() = delete;
-    Ui(const Ui&) = delete;
-    Ui(Ui&&) = delete;
-    Ui& operator= (const Ui&) = delete;
-    Ui& operator= (Ui&&) = delete;
-    ~Ui() = delete;
-
-    static inline void update() noexcept;
-    static inline void render() noexcept;
-
-private:
-    constinit static inline auto s_Buttons = std::span<pul::TxQuad>();
-};
-
-#endif // PROVINGGROUNDS_DETAILS_UIDECL_HPP
+#endif // PULSAR_TXQUAD_HPP

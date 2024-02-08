@@ -22,7 +22,7 @@
 
 #include "../Texture.hpp"
 #include "../Shader.hpp"
-#include "../QuadT.hpp"
+#include "../TxQuad.hpp"
 
 namespace pul
 {
@@ -34,11 +34,11 @@ namespace pul
 
         inline void init(std::string_view filePath) noexcept;
 
-        [[nodiscard]] inline batch::QuadT getText(
+        [[nodiscard]] inline std::vector<TxQuad> getText(
             std::string_view text,
             const eqx::Point<float>& loc = eqx::Point<float>()) noexcept;
 
-        static inline void setUniforms(float w, float h) noexcept;
+        static inline void boot() noexcept;
 
     private:
         struct Character
@@ -55,12 +55,6 @@ namespace pul
 
         constinit static inline auto s_FT = FT_Library();
     };
-}
-
-namespace pul::shader
-{
-    [[nodiscard]] inline const Shader& getText() noexcept;
-    [[nodiscard]] inline Shader makeText() noexcept;
 }
 
 #endif // PULSAR_DETAILS_FONTDECL_HPP

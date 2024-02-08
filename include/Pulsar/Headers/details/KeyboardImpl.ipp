@@ -22,12 +22,6 @@
 
 namespace pul
 {
-    inline void Keyboard::init() noexcept
-    {
-        static auto keyStore = std::vector<Button>(400, Button::Up);
-        s_Keys = &keyStore;
-    }
-
     inline void Keyboard::buttonCallback([[maybe_unused]] GLFWwindow* window,
         int key, [[maybe_unused]] int scancode, int action,
         [[maybe_unused]] int mods) noexcept
@@ -36,12 +30,22 @@ namespace pul
         {
             return;
         }
-        s_Keys->at(static_cast<std::size_t>(key)) = static_cast<Button>(action);
+        s_Keys.at(static_cast<std::size_t>(key)) = static_cast<Button>(action);
     }
 
     [[nodiscard]] inline Keyboard::Button Keyboard::getKey(Key key) noexcept
     {
-        return s_Keys->at(static_cast<std::size_t>(key));
+        return s_Keys.at(static_cast<std::size_t>(key));
+    }
+
+    [[nodiscard]] inline bool Keyboard::isPressed(Key key) noexcept
+    {
+        return getKey(key) == Button::Down;
+    }
+
+    [[nodiscard]] inline bool Keyboard::isReleased(Key key) noexcept
+    {
+        return getKey(key) == Button::Up;
     }
 }
 

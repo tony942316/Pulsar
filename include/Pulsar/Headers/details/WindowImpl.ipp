@@ -54,19 +54,17 @@ namespace pul
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_RESIZABLE, false);
 
-        Keyboard::init();
-
         m_Width = static_cast<float>(width);
         m_Height = static_cast<float>(height);
 
         m_Name.init();
-        *m_Name.get() = name;
+        *m_Name = name;
 
         m_UpdateFunc.init();
         m_RenderFunc.init();
 
         m_Window.init(glfwDestroyWindow, glfwCreateWindow, width, height,
-            m_Name.get()->c_str(), nullptr, nullptr);
+            (*m_Name).c_str(), nullptr, nullptr);
 
         glfwMakeContextCurrent(m_Window.get());
         glfwSwapInterval(1);
@@ -82,6 +80,10 @@ namespace pul
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        EmbShaders::boot(m_Width, m_Height);
+        Font::boot();
+        Renderer::boot();
     }
 
     inline void Window::free() noexcept
@@ -170,13 +172,13 @@ namespace pul
     inline void Window::setUpdateFunc(
         const std::function<void()>& func) noexcept
     {
-        *m_UpdateFunc.get() = func;
+        *m_UpdateFunc = func;
     }
 
     inline void Window::setRenderFunc(
         const std::function<void()>& func) noexcept
     {
-        *m_RenderFunc.get() = func;
+        *m_RenderFunc = func;
     }
 
     [[nodiscard]] inline float Window::getWidth() const noexcept
@@ -196,7 +198,7 @@ namespace pul
 
     [[nodiscard]] inline std::string_view Window::getName() const noexcept
     {
-        return *m_Name.get();
+        return *m_Name;
     }
 }
 

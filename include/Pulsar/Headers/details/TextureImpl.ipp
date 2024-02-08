@@ -47,12 +47,12 @@ namespace pul
     {
         m_Texture.init(delTex, genTex);
         m_FilePath.init();
-        *m_FilePath.get() = filePath;
+        *m_FilePath = filePath;
 
         enable();
 
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
         glTexParameteri(GL_TEXTURE_2D,
             GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
@@ -60,10 +60,11 @@ namespace pul
 
         int width, height, nrChannels;
 
-        unsigned char* data = stbi_load(m_FilePath.get()->c_str(),
-            &width, &height, &nrChannels, 0);
+        unsigned char* data = stbi_load((*m_FilePath).c_str(),
+            &width, &height, &nrChannels, STBI_rgb_alpha);
+
         eqx::runtimeAssert(data != nullptr,
-            "Couldn't Load Texture: "s + *m_FilePath.get());
+            "Couldn't Load Texture: "s + *m_FilePath);
 
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0,
             GL_RGBA, GL_UNSIGNED_BYTE, data);

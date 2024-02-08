@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Anthony H. Grasso
+ * Copyright (C) 2024 Anthony H. Grasso
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PULSAR_BATCH_QUADT_HPP
-#define PULSAR_BATCH_QUADT_HPP
+#ifndef PROVINGGROUNDS_BATCHTEST_HPP
+#define PROVINGGROUNDS_BATCHTEST_HPP
 
-// Declarations in "details/QuadTDecl.hpp"
-#include "details/QuadTImpl.ipp"
+// Declarations in "details/BatchTestDecl.hpp"
+#include "details/BatchTestImpl.ipp"
 
-#endif // PULSAR_BATCH_QUADT_HPP
+#endif // PROVINGGROUNDS_BATCHTEST_HPP

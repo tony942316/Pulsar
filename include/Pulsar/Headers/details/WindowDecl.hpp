@@ -22,6 +22,9 @@
 
 #include "../Mouse.hpp"
 #include "../Keyboard.hpp"
+#include "../EmbShaders.hpp"
+#include "../Font.hpp"
+#include "../Renderer.hpp"
 
 namespace pul
 {

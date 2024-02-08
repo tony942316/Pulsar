@@ -21,9 +21,10 @@
 #include "Dependencies.hpp"
 
 #include "../Shader.hpp"
+#include "../EmbShaders.hpp"
 #include "../VertexArray.hpp"
 #include "../Texture.hpp"
-#include "../QuadT.hpp"
+#include "../TxQuad.hpp"
 #include "../Font.hpp"
 
 namespace pul
@@ -40,10 +41,14 @@ namespace pul
 
         static inline void draw(const Shader& shader,
             const VertexArray& vertexArray) noexcept;
-        static inline void draw(const batch::QuadT& quads) noexcept;
-        static inline void drawText(const batch::QuadT& quads) noexcept;
 
-        static inline void init() noexcept;
+        static inline void draw(const TxQuad& quad) noexcept;
+        static inline void draw(std::span<TxQuad> quads) noexcept;
+        static inline void drawText(std::span<TxQuad> quads) noexcept;
+        static inline void drawQuads(const Shader& shader,
+            std::span<TxQuad> quads) noexcept;
+
+        static inline void boot() noexcept;
 
     private:
         constinit static inline auto s_VA = VertexArray();

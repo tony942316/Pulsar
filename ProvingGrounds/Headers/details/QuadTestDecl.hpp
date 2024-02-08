@@ -34,7 +34,9 @@ public:
     static inline void render() noexcept;
 
 private:
-    static inline auto s_Face = pul::QuadT();
+    constinit static inline auto s_Face = pul::TxQuad();
+    constinit static inline auto s_Face2 = pul::TxQuad();
+    constinit static inline auto s_Cat = pul::TxQuad();
 };
 
 #endif // PROVINGGROUNDS_DETAILS_QUADTESTDECL_HPP

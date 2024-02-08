@@ -36,28 +36,51 @@ namespace pul
         shader.disable();
     }
 
-    inline void Renderer::draw(const batch::QuadT& quads) noexcept
+    inline void Renderer::draw(const TxQuad& quad) noexcept
     {
-        quads.enableTextures();
-        s_VA.clear();
-        s_VA.addVertices(quads.getData());
-        s_VA.addIndices(batch::QuadT::getIndices());
-        s_VA.setAttribs(batch::QuadT::getAttribs());
-        draw(batch::shader::getQuadT(), s_VA);
+        auto x = std::array<TxQuad, 1_size>({ quad });
+        draw(x);
     }
 
-    inline void Renderer::drawText(const batch::QuadT& quads) noexcept
+    inline void Renderer::draw(std::span<TxQuad> quads) noexcept
     {
-        quads.enableTextures();
-        s_VA.clear();
-        s_VA.addVertices(quads.getData());
-        s_VA.addIndices(batch::QuadT::getIndices());
-        s_VA.setAttribs(batch::QuadT::getAttribs());
-
-        draw(shader::getText(), s_VA);
+        drawQuads(EmbShaders::TxQuadShader(), quads);
     }
 
-    inline void Renderer::init() noexcept
+    inline void Renderer::drawText(std::span<TxQuad> quads) noexcept
+    {
+        drawQuads(EmbShaders::FontShader(), quads);
+    }
+
+    inline void Renderer::drawQuads(const Shader& shader,
+        std::span<TxQuad> quads) noexcept
+    {
+        glDisable(GL_DEPTH_TEST);
+
+        auto remaining = quads;
+        auto chunk = std::span<TxQuad>();
+
+        while (remaining.size() > 32_size)
+        {
+            chunk = remaining.first(32_size);
+            s_VA.clear();
+            s_VA.addVertices(TxQuad::batch(chunk).getData());
+            s_VA.addIndices(TxQuad::getIndices());
+            s_VA.setAttribs(TxQuad::getAttribs());
+            draw(shader, s_VA);
+            remaining = remaining.subspan(32_size);
+        }
+
+        s_VA.clear();
+        s_VA.addVertices(TxQuad::batch(remaining).getData());
+        s_VA.addIndices(TxQuad::getIndices());
+        s_VA.setAttribs(TxQuad::getAttribs());
+        draw(shader, s_VA);
+
+        glEnable(GL_DEPTH_TEST);
+    }
+
+    inline void Renderer::boot() noexcept
     {
         s_VA.init();
     }

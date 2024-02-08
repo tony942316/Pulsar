@@ -25,47 +25,43 @@ inline void Tester::run() noexcept
     s_Window.init(1200, 800, "Pulsar Test Window");
     s_Window.setUpdateFunc(update);
     s_Window.setRenderFunc(render);
-    pul::Renderer::init();
-    pul::batch::QuadT::setUniforms(1200.0f, 800.0f);
-    pul::Font::setUniforms(1200.0f, 800.0f);
 
     s_Window.show();
 }
 
 inline void Tester::update() noexcept
 {
-    if (pul::Keyboard::getKey(pul::Keyboard::Key::Escape) ==
-        pul::Keyboard::Button::Down)
+    if (pul::Keyboard::isPressed(pul::Keyboard::Key::Escape))
     {
         s_Window.close();
     }
 
-    if (pul::Keyboard::getKey(pul::Keyboard::Key::D) ==
-        pul::Keyboard::Button::Down)
+    if (pul::Keyboard::isPressed(pul::Keyboard::Key::N1))
     {
         s_State = State::Quad;
     }
 
-    if (pul::Keyboard::getKey(pul::Keyboard::Key::W) ==
-        pul::Keyboard::Button::Down)
+    if (pul::Keyboard::isPressed(pul::Keyboard::Key::N2))
     {
         s_State = State::Text;
     }
 
-    if (pul::Keyboard::getKey(pul::Keyboard::Key::R) ==
-        pul::Keyboard::Button::Down)
+    if (pul::Keyboard::isPressed(pul::Keyboard::Key::N3))
     {
         s_State = State::Cube;
     }
 
-    if (pul::Keyboard::getKey(pul::Keyboard::Key::S) ==
-        pul::Keyboard::Button::Down)
+    if (pul::Keyboard::isPressed(pul::Keyboard::Key::N4))
     {
         s_State = State::Blender;
     }
 
-    if (pul::Keyboard::getKey(pul::Keyboard::Key::A) ==
-        pul::Keyboard::Button::Down)
+    if (pul::Keyboard::isPressed(pul::Keyboard::Key::N5))
+    {
+        s_State = State::Batch;
+    }
+
+    if (pul::Keyboard::isPressed(pul::Keyboard::Key::N0))
     {
         s_State = State::None;
     }
@@ -85,6 +81,9 @@ inline void Tester::update() noexcept
         break;
     case State::Blender:
         BlenderTest::update(s_Window.getDeltaTime());
+        break;
+    case State::Batch:
+        BatchTest::update(s_Window.getDeltaTime());
         break;
     }
 }
@@ -106,6 +105,9 @@ inline void Tester::render() noexcept
         break;
     case State::Blender:
         BlenderTest::render();
+        break;
+    case State::Batch:
+        BatchTest::render();
         break;
     }
 }

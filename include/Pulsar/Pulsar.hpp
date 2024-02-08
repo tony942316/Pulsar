@@ -19,12 +19,15 @@
 #define PULSAR_HPP
 
 #include "Headers/VertexArray.hpp"
+#include "Headers/ShaderGenerator.hpp"
 #include "Headers/Shader.hpp"
+#include "Headers/EmbShaders.hpp"
 #include "Headers/Mouse.hpp"
 #include "Headers/Keyboard.hpp"
 #include "Headers/Window.hpp"
 #include "Headers/Texture.hpp"
-#include "Headers/QuadT.hpp"
+#include "Headers/Batch.hpp"
+#include "Headers/TxQuad.hpp"
 #include "Headers/Font.hpp"
 #include "Headers/Renderer.hpp"
 

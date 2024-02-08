@@ -25,6 +25,7 @@
 #include "../TextTest.hpp"
 #include "../CubeTest.hpp"
 #include "../BlenderTest.hpp"
+#include "../BatchTest.hpp"
 
 class Tester
 {
@@ -35,7 +36,8 @@ public:
         Quad,
         Text,
         Cube,
-        Blender
+        Blender,
+        Batch
     };
 
     Tester() = delete;

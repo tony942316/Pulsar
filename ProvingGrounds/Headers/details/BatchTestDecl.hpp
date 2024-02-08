@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Anthony H. Grasso
+ * Copyright (C) 2024 Anthony H. Grasso
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,26 +15,29 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PROVINGGROUNDS_DETAILS_UIDECL_HPP
-#define PROVINGGROUNDS_DETAILS_UIDECL_HPP
+#ifndef PROVINGGROUNDS_DETAILS_BATCHTESTDECL_HPP
+#define PROVINGGROUNDS_DETAILS_BATCHTESTDECL_HPP
 
 #include "Dependencies.hpp"
 
-class Ui
+class BatchTest
 {
 public:
-    Ui() = delete;
-    Ui(const Ui&) = delete;
-    Ui(Ui&&) = delete;
-    Ui& operator= (const Ui&) = delete;
-    Ui& operator= (Ui&&) = delete;
-    ~Ui() = delete;
+    BatchTest() = delete;
+    BatchTest(const BatchTest&) = delete;
+    BatchTest(BatchTest&) = delete;
+    BatchTest& operator= (const BatchTest&) = delete;
+    BatchTest& operator= (BatchTest&&) = delete;
+    ~BatchTest() = delete;
 
-    static inline void update() noexcept;
+    static inline void update(float dt) noexcept;
     static inline void render() noexcept;
 
 private:
-    constinit static inline auto s_Buttons = std::span<pul::TxQuad>();
+    static inline void shuffle() noexcept;
+
+    constinit static inline auto s_Batch1 = std::array<pul::TxQuad, 32ULL>();
+    constinit static inline auto s_Batch2 = std::array<pul::TxQuad, 64ULL>();
 };
 
-#endif // PROVINGGROUNDS_DETAILS_UIDECL_HPP
+#endif // PROVINGGROUNDS_DETAILS_BATCHTESTDECL_HPP
